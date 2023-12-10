@@ -1,7 +1,5 @@
-const nextConfig = {
-  reactStrictMode: false,
-  swcMinify: true,
-  output: "standalone",
+module.exports = {
+  experimental: {
+    outputStandalone: true,
+  },
 }
-
-module.exports = nextConfig
