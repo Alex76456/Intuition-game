@@ -10,11 +10,8 @@
     "next": "12.1.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "^5.0.1",
     "socket.io": "4.5.4",
-    "socket.io-client": "4.5.4",
-    "webpack": "^5.89.0",
-    "yarn-audit-fix": "^10.0.7"
+    "socket.io-client": "4.5.4"
   },
   "license": "MIT",
   "devDependencies": {},
