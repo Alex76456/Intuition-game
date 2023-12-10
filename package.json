@@ -2,12 +2,12 @@
   "name": "simple-chat-socketio",
   "version": "1.0.0",
   "scripts": {
-    "dev": "NODE_OPTIONS=--openssl-legacy-provider && next start",
-    "build": "NODE_OPTIONS=--openssl-legacy-provider && next build",
+    "dev": "next start",
+    "build": "next build",
     "start": "next start"
   },
   "dependencies": {
-    "next": "latest",
+    "next": "10.0.8",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "^5.0.1",
