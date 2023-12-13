@@ -2,7 +2,7 @@
   "name": "simple-chat-socketio",
   "version": "1.0.0",
   "scripts": {
-    "dev": "next start",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },

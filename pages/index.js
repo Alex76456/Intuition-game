@@ -1,66 +1,65 @@
-import React, { useEffect, useState } from "react";
-import io from "socket.io-client";
+import React, { useEffect, useState } from "react"
+import io from "socket.io-client"
 
-let socket;
+let socket
 
 const Home = () => {
-  const [message, setMessage] = useState("");
-  const [username, setUsername] = useState("");
-  const [allMessages, setAllMessages] = useState([]);
+  const [message, setMessage] = useState("")
+  const [username, setUsername] = useState("")
+  const [allMessages, setAllMessages] = useState([])
 
   useEffect(() => {
-    socketInitializer();
+    socketInitializer()
 
     return () => {
-      socket.disconnect();
-    };
-  }, []);
+      socket.disconnect()
+    }
+  }, [])
 
   async function socketInitializer() {
-    await fetch("/api/socket");
+    await fetch("/api/socket")
 
-    socket = io();
+    socket = io()
 
     socket.on("receive-message", (data) => {
-      setAllMessages((pre) => [...pre, data]);
-    });
+      setAllMessages((pre) => [...pre, data])
+    })
   }
 
   function handleSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
 
-    console.log("emitted");
+    console.log("emitted")
 
     socket.emit("send-message", {
       username,
-      message
-    });
-    setMessage("");
+      message,
+    })
+    setMessage("")
   }
 
   return (
-    <div>
-      <h1>Chat app</h1>
+    <div style={{ display: "flex", alignItems: "center", flexDirection: "column", gap: "30px", padding: "100px" }}>
+      <h1>Mind game</h1>
       <h1>Enter a username</h1>
 
-      <input value={username} onChange={(e) => setUsername(e.target.value)} />
+      <input style={{ border: "3px solid black" }} value={username} onChange={(e) => setUsername(e.target.value)} />
 
-      <br />
-      <br />
+      <div style={{ padding: "5px", border: "1px solid gray", maxHeight: "300px", minHeight: "100px" }}>
+        <ul>
+          {allMessages.map(({ username, message }, index) => (
+            <li key={index} style={{ listStyle: "none" }}>
+              {username}: {message}
+            </li>
+          ))}
+        </ul>
 
-      <div>
-        {allMessages.map(({ username, message }, index) => (
-          <div key={index}>
-            {username}: {message}
-          </div>
-        ))}
-
-        <br />
-
-        <form onSubmit={handleSubmit}>
+        <form style={{ marginTop: "20px" }} onSubmit={handleSubmit}>
           <input
+            disabled={!username}
             name="message"
             placeholder="enter your message"
+            style={{ width: "500px" }}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             autoComplete={"off"}
@@ -68,7 +67,7 @@ const Home = () => {
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
