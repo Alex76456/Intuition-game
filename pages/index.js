@@ -1,73 +1,96 @@
-import React, { useEffect, useState } from "react"
-import io from "socket.io-client"
+import React, { useEffect, useState } from 'react';
+import io from 'socket.io-client';
 
-let socket
+let socket;
 
 const Home = () => {
-  const [message, setMessage] = useState("")
-  const [username, setUsername] = useState("")
-  const [allMessages, setAllMessages] = useState([])
+  const [message, setMessage] = useState('');
+  const [username, setUsername] = useState('');
+  const [allMessages, setAllMessages] = useState([]);
 
   useEffect(() => {
-    socketInitializer()
+    socketInitializer();
 
     return () => {
-      socket.disconnect()
-    }
-  }, [])
+      socket.disconnect();
+    };
+  }, []);
 
   async function socketInitializer() {
-    await fetch("/api/socket")
+    await fetch('/api/socket');
 
-    socket = io()
+    socket = io();
 
-    socket.on("receive-message", (data) => {
-      setAllMessages((pre) => [...pre, data])
-    })
+    socket.on('receive-message', (data) => {
+      setAllMessages((pre) => [...pre, data]);
+    });
   }
 
   function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
-    console.log("emitted")
+    console.log('emitted');
 
-    socket.emit("send-message", {
+    socket.emit('send-message', {
       username,
       message,
-    })
-    setMessage("")
+    });
+    setMessage('');
   }
 
   return (
-    <div style={{ display: "flex", alignItems: "center", flexDirection: "column", gap: "30px", padding: "100px" }}>
-      <h1>Mind game</h1>
-      <h1>Enter a username</h1>
+    <div className="main">
+      <div className="mainWrapper">
+        <div className="mainInner">
+          <div className="name">
+            <h1 className="nameTitle">Great Intuition the Game</h1>
+          </div>
 
-      <input style={{ border: "3px solid black" }} value={username} onChange={(e) => setUsername(e.target.value)} />
+          <div className="username">
+            <h2 className="usernameSubtitle">Enter a username</h2>
+            <input
+              className="input"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
 
-      <div style={{ padding: "5px", border: "1px solid gray", maxHeight: "300px", minHeight: "100px" }}>
-        <ul>
-          {allMessages.map(({ username, message }, index) => (
-            <li key={index} style={{ listStyle: "none" }}>
-              {username}: {message}
-            </li>
-          ))}
-        </ul>
+          <div className="window">
+            <ul className="windowChat">
+              {allMessages.map(({ username, message }, index) => (
+                <li key={index} className="message">
+                  {username}: {message}
+                </li>
+              ))}
+            </ul>
 
-        <form style={{ marginTop: "20px" }} onSubmit={handleSubmit}>
-          <input
-            disabled={!username}
-            name="message"
-            placeholder="enter your message"
-            style={{ width: "500px" }}
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            autoComplete={"off"}
-          />
-        </form>
+            <form className="form" onSubmit={handleSubmit}>
+              <input
+                className="inputMessage"
+                disabled={!username}
+                name="message"
+                placeholder="enter your message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                autoComplete={'off'}
+                type="number"
+                size={3}
+              />
+              <button className="submitButton" type="submit" disabled={!username}>
+                Send
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div className="rules">
+        <h2>Правила</h2>
+      </div>
+      <div className="Leaderboard">
+        <h2>Таблица лидеров</h2>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
