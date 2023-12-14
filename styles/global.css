@@ -43,7 +43,8 @@
 
 .nameTitle {
   margin: 0;
-  text-decoration: overline underline;
+  text-decoration: underline;
+  color: rgb(4, 23, 77);
 }
 
 .username {
@@ -100,6 +101,7 @@
   text-align: center;
   font-size: 30px;
   border-radius: 4px;
+  background-color: rgb(205, 209, 247);
 }
 
 .inputMessage {
@@ -110,6 +112,7 @@
   text-align: center;
   font-size: 30px;
   border-radius: 4px;
+  background-color: rgb(205, 209, 247);
 }
 
 .submitButton {
@@ -117,6 +120,13 @@
   margin-left: 5px;
   border-radius: 4px;
   outline: none;
+  transition: 0.3 ease;
+  background-color: rgb(67, 81, 201);
+}
+
+.submitButton:hover:enabled {
+  cursor: pointer;
+  opacity: 0.7;
 }
 
 .rules {
@@ -126,6 +136,10 @@
   width: 450px;
   height: 100%;
   background-color: #55527a;
+}
+
+.rulesParagraph {
+  margin-top: 20px;
 }
 
 .Leaderboard {
