@@ -1,21 +1,46 @@
-import { Server } from "socket.io";
+import { Server } from "socket.io"
+import { getRandomIntInRange, getWinningMessage } from "../../utils/commonUtils"
+import { gameConfig, socketEvents } from "../../constants/commonConstants"
+
+const state = { messages: [] }
 
 export default function SocketHandler(req, res) {
   if (res.socket.server.io) {
-    console.log("Already set up");
-    res.end();
-    return;
+    console.log("Already set up")
+    res.end()
+    return
   }
 
-  const io = new Server(res.socket.server);
-  res.socket.server.io = io;
+  const io = new Server(res.socket.server)
+  res.socket.server.io = io
 
   io.on("connection", (socket) => {
-    socket.on("send-message", (obj) => {
-      io.emit("receive-message", obj);
-    });
-  });
+    socket.on(socketEvents.SEND_MESSAGE, (obj) => {
+      state.messages = [...state.messages, obj]
+      io.emit(socketEvents.RECEIVE_MESSAGE, obj)
+    })
+  })
 
-  console.log("Setting up socket");
-  res.end();
+  setInterval(() => {
+    if (!state.messages.length) {
+      io.emit(socketEvents.RECEIVE_MESSAGE, {
+        username: gameConfig.SERVER_NAME,
+        message: gameConfig.NO_PLAYERS_MESSAGE,
+      })
+      return
+    }
+
+    const winningNumber = getRandomIntInRange({ min: gameConfig.MIN_RANDOM_NUMBER, max: gameConfig.MAX_RANDOM_NUMBER })
+    const winningMessage = getWinningMessage({ winningNumber, messages: state.messages })
+
+    state.messages = []
+
+    io.emit(socketEvents.RECEIVE_MESSAGE, {
+      username: gameConfig.SERVER_NAME,
+      message: gameConfig.GET_RESULT_MESSAGE({ winningNumber, winningMessage }),
+    })
+  }, gameConfig.GAME_DURATION)
+
+  console.log("Setting up socket")
+  res.end()
 }
