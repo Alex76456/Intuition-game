@@ -63,6 +63,7 @@ const Home = () => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             autoComplete={"off"}
+            maxLength={3}
           />
         </form>
       </div>
