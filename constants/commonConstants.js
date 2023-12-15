@@ -1,4 +1,4 @@
-import { getResultMessage } from "../utils/commonUtils"
+import { getResultMessage } from "@utils/commonUtils"
 
 export const socketEvents = {
   RECEIVE_MESSAGE: "receive-message",

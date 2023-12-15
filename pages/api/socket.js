@@ -1,6 +1,6 @@
+import { gameConfig, socketEvents } from "@constants/commonConstants"
+import { getRandomIntInRange, getWinningMessage } from "@utils/commonUtils"
 import { Server } from "socket.io"
-import { getRandomIntInRange, getWinningMessage } from "../../utils/commonUtils"
-import { gameConfig, socketEvents } from "../../constants/commonConstants"
 
 const state = { messages: [] }
 

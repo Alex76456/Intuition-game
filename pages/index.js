@@ -1,6 +1,6 @@
+import { SOCKET_URL, socketEvents } from "@constants/commonConstants"
 import React, { useEffect, useState } from "react"
 import io from "socket.io-client"
-import { SOCKET_URL, socketEvents } from "../constants/commonConstants"
 
 let socket
 

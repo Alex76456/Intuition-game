@@ -8,4 +8,15 @@ module.exports = {
     "no-undef-init": "error",
     "react-hooks/exhaustive-deps": "error",
   },
+  ignorePatterns: ["node_modules/", ".next/"],
+  settings: {
+    "import/resolver": {
+      alias: [
+        ["@constants", "./constants"],
+        ["@pages", "./pages"],
+        ["@styles", "./styles"],
+        ["@utils", "./utils"],
+      ],
+    },
+  },
 }
