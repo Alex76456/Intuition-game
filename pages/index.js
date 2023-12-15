@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import io from "socket.io-client"
+import { SOCKET_URL, socketEvents } from "../constants/commonConstants"
 
 let socket
 
@@ -17,11 +18,11 @@ const Home = () => {
   }, [])
 
   async function socketInitializer() {
-    await fetch("/api/socket")
+    await fetch(SOCKET_URL)
 
     socket = io()
 
-    socket.on("receive-message", (data) => {
+    socket.on(socketEvents.RECEIVE_MESSAGE, (data) => {
       setAllMessages((pre) => [...pre, data])
     })
   }
@@ -31,7 +32,7 @@ const Home = () => {
 
     console.log("emitted")
 
-    socket.emit("send-message", {
+    socket.emit(socketEvents.SEND_MESSAGE, {
       username,
       message,
     })

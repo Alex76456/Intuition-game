@@ -5,6 +5,8 @@ export const socketEvents = {
   SEND_MESSAGE: "send-message",
 }
 
+export const SOCKET_URL = "/api/socket"
+
 export const gameConfig = {
   SERVER_NAME: "SERVER",
   GAME_DURATION: 30 * 1000,
