@@ -1,4 +1,5 @@
 import { SOCKET_URL, socketEvents } from "@constants/commonConstants"
+import { getRandomIntInRange } from "@utils/commonUtils"
 import React, { useEffect, useState } from "react"
 import io from "socket.io-client"
 
@@ -6,7 +7,7 @@ let socket
 
 const Home = () => {
   const [message, setMessage] = useState("")
-  const [username, setUsername] = useState("")
+  const [username, setUsername] = useState(`Great Intuit(${getRandomIntInRange({ min: 1, max: 999 })})`)
   const [allMessages, setAllMessages] = useState([])
 
   useEffect(() => {
@@ -48,7 +49,7 @@ const Home = () => {
           </div>
 
           <div className="username">
-            <h2 className="usernameSubtitle">Enter a username</h2>
+            <h2 className="usernameSubtitle">{"Ваш ник (можно ввести свой):"}</h2>
             <input className="input" value={username} onChange={(e) => setUsername(e.target.value)} />
           </div>
 
@@ -66,7 +67,7 @@ const Home = () => {
                 className="inputMessage"
                 disabled={!username}
                 name="message"
-                placeholder="enter your message"
+                placeholder="введите своё число"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 autoComplete={"off"}

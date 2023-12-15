@@ -18,5 +18,9 @@ export const getWinningMessage = ({ messages, winningNumber }) => {
 }
 
 export const getResultMessage = ({ winningNumber, winningMessage }) => {
-  return `Загаданное число: ${winningNumber} \n Победил игрок ${winningMessage.username} с числом: ${winningMessage.message}`
+  return `Загаданное число: ${winningNumber} \n Победил игрок ${winningMessage.username} с числом: ${winningMessage.message} ヽ༼ ʘ̚ل͜ʘ̚༽ﾉ`
+}
+
+export const getRemainingSeconds = ({ nextResultDate }) => {
+  return `* ${Math.floor((nextResultDate - Date.now()) / 1000)} сек до объявления победителя *`
 }
