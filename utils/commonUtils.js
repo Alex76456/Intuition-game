@@ -64,7 +64,7 @@ export const getAccurace = ({ winningNumber, number }) => {
   } else if (accurace < 0) {
     return 1;
   } else {
-    accurace;
+    return accurace;
   }
 };
 
