@@ -1,14 +1,16 @@
+import { gameConfig, socketEvents } from "@constants/commonConstants";
 import {
-  gameConfig,
-  socketEvents,
-  BOT_NAMES,
-} from "@constants/commonConstants";
-import { getRandomIntInRange, getWinningMessage } from "@utils/commonUtils";
+  getRandomBotMessage,
+  getRandomIntInRange,
+  getUpdatedStatistic,
+  getWinningMessage,
+} from "@utils/commonUtils";
 import { Server } from "socket.io";
 
 const state = {
   messages: [],
   nextResultDate: Date.now() + gameConfig.GAME_DURATION,
+  statistic: {},
 };
 
 export default function SocketHandler(req, res) {
@@ -46,20 +48,7 @@ export default function SocketHandler(req, res) {
   const emitBotMessage = () => {
     const nextBotMessageDuration =
       getRandomIntInRange(gameConfig.FREQUENCY_BOT_MESSAGES) * 1000;
-
-    const newBotMessage = {
-      username:
-        BOT_NAMES[
-          getRandomIntInRange({
-            min: 0,
-            max: BOT_NAMES.length - 1,
-          })
-        ],
-      message: getRandomIntInRange({
-        min: gameConfig.MIN_RANDOM_NUMBER,
-        max: gameConfig.MAX_RANDOM_NUMBER,
-      }),
-    };
+    const newBotMessage = getRandomBotMessage();
 
     setTimeout(() => {
       state.messages = [...state.messages, newBotMessage];
@@ -97,13 +86,20 @@ export default function SocketHandler(req, res) {
       messages: state.messages,
     });
 
-    state.messages = [];
-
     io.emit(socketEvents.RECEIVE_MESSAGE, {
       username: gameConfig.SERVER_NAME,
       message: gameConfig.GET_RESULT_MESSAGE({ winningNumber, winningMessage }),
     });
 
+    state.statistic = getUpdatedStatistic({
+      winningNumber,
+      startStatistic: state.statistic,
+      messages: state.messages,
+      winningMessage,
+    });
+
+    io.emit(socketEvents.STATISTIC_MESSAGE, state.statistic);
+    state.messages = [];
     state.nextResultDate = Date.now() + gameConfig.GAME_DURATION;
   }, gameConfig.GAME_DURATION);
 
