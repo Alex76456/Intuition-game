@@ -1,43 +1,49 @@
-import { SOCKET_URL, socketEvents } from "@constants/commonConstants"
-import { getRandomIntInRange } from "@utils/commonUtils"
-import React, { useEffect, useState } from "react"
-import io from "socket.io-client"
+import {
+  SOCKET_URL,
+  gameConfig,
+  socketEvents,
+} from "@constants/commonConstants";
+import { getRandomIntInRange } from "@utils/commonUtils";
+import React, { useEffect, useState } from "react";
+import io from "socket.io-client";
 
-let socket
+let socket;
 
 const Home = () => {
-  const [message, setMessage] = useState("")
-  const [username, setUsername] = useState(`Great Intuit(${getRandomIntInRange({ min: 1, max: 999 })})`)
-  const [allMessages, setAllMessages] = useState([])
+  const [message, setMessage] = useState("");
+  const [username, setUsername] = useState(
+    `Great Intuit(${getRandomIntInRange({ min: 1, max: 999 })})`
+  );
+  const [allMessages, setAllMessages] = useState([]);
 
   useEffect(() => {
-    socketInitializer()
+    socketInitializer();
 
     return () => {
-      socket.disconnect()
-    }
-  }, [])
+      socket.disconnect();
+    };
+  }, []);
 
   async function socketInitializer() {
-    await fetch(SOCKET_URL)
+    await fetch(SOCKET_URL);
 
-    socket = io()
+    socket = io();
 
     socket.on(socketEvents.RECEIVE_MESSAGE, (data) => {
-      setAllMessages((pre) => [...pre, data])
-    })
+      setAllMessages((pre) => [...pre, data]);
+    });
   }
 
   function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
-    console.log("emitted")
+    console.log("emitted");
 
     socket.emit(socketEvents.SEND_MESSAGE, {
       username,
       message,
-    })
-    setMessage("")
+    });
+    setMessage("");
   }
 
   return (
@@ -49,8 +55,14 @@ const Home = () => {
           </div>
 
           <div className="username">
-            <h2 className="usernameSubtitle">{"Ваш ник (можно ввести свой):"}</h2>
-            <input className="input" value={username} onChange={(e) => setUsername(e.target.value)} />
+            <h2 className="usernameSubtitle">
+              {"Ваш ник (можно ввести свой):"}
+            </h2>
+            <input
+              className="input"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
           </div>
 
           <div className="window">
@@ -74,7 +86,11 @@ const Home = () => {
                 type="number"
                 size={3}
               />
-              <button className="submitButton" type="submit" disabled={!username || !message}>
+              <button
+                className="submitButton"
+                type="submit"
+                disabled={!username || !message}
+              >
                 Send
               </button>
             </form>
@@ -87,7 +103,9 @@ const Home = () => {
         <p className="rulesParagraph">Загадай число</p>
         <p className="rulesParagraph">Соревнуйся с другими игроками</p>
         <p className="rulesParagraph">Используй интуицию</p>
-        <p className="rulesParagraph">Раунд длиться 30 секунд</p>
+        <p className="rulesParagraph">{`Раунд длиться ${
+          gameConfig.GAME_DURATION / 1000
+        } секунд`}</p>
       </div>
       <div className="Leaderboard">
         <h2>Таблица лидеров</h2>
@@ -95,7 +113,7 @@ const Home = () => {
         <p>Alex76456</p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
