@@ -3,21 +3,22 @@ import { getRemainingSeconds, getResultMessage } from "@utils/commonUtils";
 export const socketEvents = {
   RECEIVE_MESSAGE: "receive-message",
   SEND_MESSAGE: "send-message",
+  STATISTIC_MESSAGE: "statistic-message",
 };
 
 export const SOCKET_URL = "/api/socket";
 
 export const BOT_NAMES = [
   "BotMan",
-  "CheloBot",
-  "BotChel",
+  /*  "CheloBot",
+  "BotChel", */
   "NeBot",
-  "RoBotnick",
+  /* "RoBotnick",
   "RoBot",
   "ZaBotLivy",
   "Botan",
   "Botkins",
-  "BotBorod",
+  "BotBorod", */
   "Botusha",
   "BotRutdinov",
   "BotJamesBot",

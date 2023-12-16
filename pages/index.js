@@ -12,13 +12,13 @@ let socket;
 const Home = () => {
   const [message, setMessage] = useState("");
   const [username, setUsername] = useState(
-    `Great Intuit(${getRandomIntInRange({ min: 1, max: 999 })})`
+    `IntuiUser(${getRandomIntInRange({ min: 1, max: 999 })})`
   );
   const [allMessages, setAllMessages] = useState([]);
+  const [statistic, setStatistic] = useState({});
 
   useEffect(() => {
     socketInitializer();
-
     return () => {
       socket.disconnect();
     };
@@ -26,19 +26,19 @@ const Home = () => {
 
   async function socketInitializer() {
     await fetch(SOCKET_URL);
-
     socket = io();
-
     socket.on(socketEvents.RECEIVE_MESSAGE, (data) => {
       setAllMessages((pre) => [...pre, data]);
+    });
+
+    socket.on(socketEvents.STATISTIC_MESSAGE, (data) => {
+      setStatistic(data);
     });
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-
     console.log("emitted");
-
     socket.emit(socketEvents.SEND_MESSAGE, {
       username,
       message,
@@ -108,9 +108,41 @@ const Home = () => {
         } секунд`}</p>
       </div>
       <div className="Leaderboard">
-        <h2>Таблица лидеров</h2>
-        <p>@Supernova5007</p>
-        <p>Alex76456</p>
+        <h2>Таблица лидеров по точности</h2>
+        {Object.entries(statistic)
+          .sort((a, b) => b[1].averageAccuracy - a[1].averageAccuracy)
+          .map((user, index) => (
+            <p key={user[0]}>{`${index + 1}. ${user[0]} (Ср. точность: ${
+              user[1].averageAccuracy
+            }%)`}</p>
+          ))}
+
+        <h2>Таблица лидеров по количеству побед</h2>
+        {Object.entries(statistic)
+          .sort((a, b) => b[1].wins - a[1].wins)
+          .map((user, index) => (
+            <p key={user[0]}>{`${index + 1}. ${user[0]} (Побед: ${
+              user[1].wins
+            })`}</p>
+          ))}
+
+        <h2>Таблица лидеров по участию в играх</h2>
+        {Object.entries(statistic)
+          .sort((a, b) => b[1].gamesPlayed - a[1].gamesPlayed)
+          .map((user, index) => (
+            <p key={user[0]}>{`${index + 1}. ${user[0]} (Сыграно: ${
+              user[1].gamesPlayed
+            })`}</p>
+          ))}
+
+        <h2>Таблица лидеров по количеству предложений</h2>
+        {Object.entries(statistic)
+          .sort((a, b) => b[1].numbersSuggested - a[1].numbersSuggested)
+          .map((user, index) => (
+            <p key={user[0]}>{`${index + 1}. ${user[0]} (Предложено: ${
+              user[1].numbersSuggested
+            })`}</p>
+          ))}
       </div>
     </div>
   );
