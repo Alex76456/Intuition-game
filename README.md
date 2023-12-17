@@ -4,6 +4,8 @@
 
 https://mindgame-oaiusxee.b4a.run/
 
+** ссылка актуальна до 11.01.2024 **
+
 ## Как зупустить локально:
 
 - `npm install` или `yarn`
