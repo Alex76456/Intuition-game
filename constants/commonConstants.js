@@ -43,3 +43,10 @@ export const gameConfig = {
   GET_REMAINING_SECONDS: ({ nextResultDate }) =>
     getRemainingSeconds({ nextResultDate }),
 };
+
+export const RULES = [
+  "Загадай число",
+  "Соревнуйся с другими игроками",
+  "Используй интуицию",
+  `Раунд длиться ${gameConfig.GAME_DURATION / 1000} секунд`,
+];
