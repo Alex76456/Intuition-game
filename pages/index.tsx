@@ -1,4 +1,5 @@
 import { RULES, SOCKET_URL, socketEvents } from "@constants/commonConstants"
+import { CommonStatisticType, MessageType } from "allTypes/commonTypes"
 import { getRandomIntInRange } from "@utils/commonUtils"
 import React, { useEffect, useRef, useState } from "react"
 import io from "socket.io-client"
@@ -6,10 +7,10 @@ import io from "socket.io-client"
 const Home = () => {
   const socket = useRef(null)
 
-  const [message, setMessage] = useState("")
-  const [username, setUsername] = useState(`IntuiUser(${getRandomIntInRange({ min: 1, max: 999 })})`)
-  const [allMessages, setAllMessages] = useState([])
-  const [statistic, setStatistic] = useState({})
+  const [message, setMessage] = useState<string>("")
+  const [username, setUsername] = useState<string>(`IntuiUser(${getRandomIntInRange({ min: 1, max: 999 })})`)
+  const [allMessages, setAllMessages] = useState<MessageType[]>([])
+  const [statistic, setStatistic] = useState<CommonStatisticType>({})
 
   const accuracyLeaders = Object.entries(statistic).sort((a, b) => b[1].averageAccuracy - a[1].averageAccuracy)
   const winsLeaders = Object.entries(statistic).sort((a, b) => b[1].wins - a[1].wins)
@@ -28,11 +29,11 @@ const Home = () => {
   async function socketInitializer() {
     await fetch(SOCKET_URL)
     socket.current = io()
-    socket.current.on(socketEvents.RECEIVE_MESSAGE, (data) => {
+    socket.current.on(socketEvents.RECEIVE_MESSAGE, (data: MessageType) => {
       setAllMessages((pre) => [...pre, data])
     })
 
-    socket.current.on(socketEvents.STATISTIC_MESSAGE, (data) => {
+    socket.current.on(socketEvents.STATISTIC_MESSAGE, (data: CommonStatisticType) => {
       setStatistic(data)
     })
   }
