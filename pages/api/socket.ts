@@ -1,8 +1,9 @@
 import { gameConfig, socketEvents } from "@constants/commonConstants"
+import { ServerStateType } from "allTypes/commonTypes"
 import { getRandomBotMessage, getRandomIntInRange, getUpdatedStatistic, getWinningMessage } from "@utils/commonUtils"
 import { Server } from "socket.io"
 
-const state = {
+const serverState: ServerStateType = {
   messages: [],
   nextResultDate: Date.now() + gameConfig.GAME_DURATION,
   statistic: {},
@@ -25,17 +26,17 @@ export default function SocketHandler(req, res) {
       message: gameConfig.GREETING_MESSAGE,
     })
 
-    io.to(socket.id).emit(socketEvents.STATISTIC_MESSAGE, state.statistic)
+    io.to(socket.id).emit(socketEvents.STATISTIC_MESSAGE, serverState.statistic)
 
     // обработка новых сообщений от всех юзеров
     socket.on(socketEvents.SEND_MESSAGE, (message) => {
-      state.messages = [...state.messages, message]
+      serverState.messages = [...serverState.messages, message]
       io.emit(socketEvents.RECEIVE_MESSAGE, message)
 
       io.to(socket.id).emit(socketEvents.RECEIVE_MESSAGE, {
         username: gameConfig.INFO_MESSAGE_NAME,
         message: gameConfig.GET_REMAINING_SECONDS({
-          nextResultDate: state.nextResultDate,
+          nextResultDate: serverState.nextResultDate,
         }),
       })
     })
@@ -47,7 +48,7 @@ export default function SocketHandler(req, res) {
     const newBotMessage = getRandomBotMessage()
 
     setTimeout(() => {
-      state.messages = [...state.messages, newBotMessage]
+      serverState.messages = [...serverState.messages, newBotMessage]
       io.emit(socketEvents.RECEIVE_MESSAGE, newBotMessage)
 
       emitBotMessage()
@@ -65,7 +66,7 @@ export default function SocketHandler(req, res) {
       })
     }, 1 * 1000)
 
-    if (!state.messages.length) {
+    if (!serverState.messages.length) {
       io.emit(socketEvents.RECEIVE_MESSAGE, {
         username: gameConfig.SERVER_NAME,
         message: gameConfig.NO_PLAYERS_MESSAGE,
@@ -79,7 +80,7 @@ export default function SocketHandler(req, res) {
     })
     const winningMessage = getWinningMessage({
       winningNumber,
-      messages: state.messages,
+      messages: serverState.messages,
     })
 
     io.emit(socketEvents.RECEIVE_MESSAGE, {
@@ -87,16 +88,16 @@ export default function SocketHandler(req, res) {
       message: gameConfig.GET_RESULT_MESSAGE({ winningNumber, winningMessage }),
     })
 
-    state.statistic = getUpdatedStatistic({
+    serverState.statistic = getUpdatedStatistic({
       winningNumber,
-      startStatistic: state.statistic,
-      messages: state.messages,
+      startStatistic: serverState.statistic,
+      messages: serverState.messages,
       winningMessage,
     })
 
-    io.emit(socketEvents.STATISTIC_MESSAGE, state.statistic)
-    state.messages = []
-    state.nextResultDate = Date.now() + gameConfig.GAME_DURATION
+    io.emit(socketEvents.STATISTIC_MESSAGE, serverState.statistic)
+    serverState.messages = []
+    serverState.nextResultDate = Date.now() + gameConfig.GAME_DURATION
   }, gameConfig.GAME_DURATION)
 
   console.log("Setting up socket")

@@ -1,8 +1,9 @@
 import React from "react"
 import "../styles/global.css"
 import Head from "next/head"
+import type { AppProps } from "next/app"
 
-export default function MyApp({ Component, pageProps }) {
+export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <div>
       <Head>

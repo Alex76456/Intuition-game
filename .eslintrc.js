@@ -16,6 +16,7 @@ module.exports = {
         ["@pages", "./pages"],
         ["@styles", "./styles"],
         ["@utils", "./utils"],
+        ["@allTypes", "./allTypes"],
       ],
     },
   },
