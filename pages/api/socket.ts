@@ -1,5 +1,5 @@
 import { gameConfig } from '@constants/commonConstants'
-import { ServerStateType } from 'allTypes/commonTypes'
+import { ServerStateType } from '@allTypes/commonTypes'
 
 import { Server } from 'socket.io'
 import { onConnectionLogic } from './logics/onConnsectionLogic'

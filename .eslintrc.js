@@ -12,11 +12,11 @@ module.exports = {
 	settings: {
 		'import/resolver': {
 			alias: [
-				['@constants', './constants'],
+				['@constants', '.src/constants'],
 				['@pages', './pages'],
-				['@styles', './styles'],
-				['@utils', './utils'],
-				['@allTypes', './allTypes'],
+				['@styles', '.src/styles'],
+				['@utils', '.src/utils'],
+				['@allTypes', '.src/allTypes'],
 				['@redux', './src/redux'],
 			],
 		},

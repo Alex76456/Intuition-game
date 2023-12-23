@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
 
-import counter from '@redux/slices/counter'
+import { commonReducer } from '@redux/slices/commonSlice'
 
-export default combineReducers({ counter })
+export const rootReducer = combineReducers({ common: commonReducer })

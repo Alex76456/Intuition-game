@@ -1,5 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
+import { ICommonState } from './slices/commonSlice'
 
-import rootReducer from './reducers'
+export type IState = {
+	common: ICommonState
+}
 
-export default configureStore({ reducer: rootReducer })
+import { rootReducer } from './reducers'
+
+export const store = configureStore({ reducer: rootReducer })
