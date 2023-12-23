@@ -4,7 +4,17 @@ import { getRandomIntInRange } from '@utils/commonUtils'
 import React, { useEffect, useRef, useState } from 'react'
 import io from 'socket.io-client'
 
+import { useDispatch, useSelector } from 'react-redux'
+/* import { increase, decrease } from '@redux/actions' */
+import { IState } from '@redux/istate'
+import { decrease, increase } from '@redux/slices/counter'
+
 const Home = () => {
+	const dispatch = useDispatch()
+	const count = useSelector((state: IState) => state.counter.count)
+
+	console.log({ count })
+
 	const socket = useRef(null)
 
 	const [message, setMessage] = useState<string>('')
@@ -76,6 +86,17 @@ const Home = () => {
 				<div className='mainInner'>
 					<div className='name'>
 						<h1 className='nameTitle'>Great Intuition the Game</h1>
+					</div>
+
+					<div>
+						<h2>Counter</h2>
+						<button type='button' onClick={() => dispatch(increase(17))}>
+							+
+						</button>
+						<span>{count}</span>
+						<button type='button' onClick={() => dispatch(decrease())}>
+							-
+						</button>
 					</div>
 
 					<div className='username'>
