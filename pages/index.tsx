@@ -1,18 +1,28 @@
 import { RULES, SOCKET_URL, socketEvents } from '@constants/commonConstants'
-import { CommonStatisticType, MessageType } from 'allTypes/commonTypes'
-import { getRandomIntInRange } from '@utils/commonUtils'
 import React, { useEffect, useRef, useState } from 'react'
 import io from 'socket.io-client'
 
-const Home = () => {
-	const socket = useRef(null)
+import { useDispatch, useSelector } from 'react-redux'
+import {
+	getAllMessages,
+	getStatistic,
+	getUserName,
+} from '@redux/selectors/commonSelectors'
+import {
+	addMessage,
+	setStatistic,
+	setUserName,
+} from '@redux/slices/commonSlice'
+import { CommonStatisticType, MessageType } from '@allTypes/commonTypes'
 
+const Home = () => {
+	const dispatch = useDispatch()
+	const userName = useSelector(getUserName)
+	const allMessages = useSelector(getAllMessages)
+	const statistic = useSelector(getStatistic)
+
+	const socket = useRef(null)
 	const [message, setMessage] = useState<string>('')
-	const [username, setUsername] = useState<string>(
-		`IntuiUser(${getRandomIntInRange({ min: 1, max: 999 })})`
-	)
-	const [allMessages, setAllMessages] = useState<MessageType[]>([])
-	const [statistic, setStatistic] = useState<CommonStatisticType>({})
 
 	const accuracyLeaders = Object.entries(statistic).sort(
 		(a, b) => b[1].averageAccuracy - a[1].averageAccuracy
@@ -38,13 +48,13 @@ const Home = () => {
 		await fetch(SOCKET_URL)
 		socket.current = io()
 		socket.current.on(socketEvents.RECEIVE_MESSAGE, (data: MessageType) => {
-			setAllMessages((pre) => [...pre, data])
+			dispatch(addMessage(data))
 		})
 
 		socket.current.on(
 			socketEvents.STATISTIC_MESSAGE,
 			(data: CommonStatisticType) => {
-				setStatistic(data)
+				dispatch(setStatistic(data))
 			}
 		)
 	}
@@ -53,7 +63,7 @@ const Home = () => {
 		e.preventDefault()
 		console.log('emitted')
 		socket.current.emit(socketEvents.SEND_MESSAGE, {
-			username,
+			userName,
 			message,
 		})
 		setMessage('')
@@ -78,22 +88,22 @@ const Home = () => {
 						<h1 className='nameTitle'>Great Intuition the Game</h1>
 					</div>
 
-					<div className='username'>
-						<h2 className='usernameSubtitle'>
+					<div className='userName'>
+						<h2 className='userNameSubtitle'>
 							{'Ваш ник (можно ввести свой):'}
 						</h2>
 						<input
 							className='input'
-							value={username}
-							onChange={(e) => setUsername(e.target.value)}
+							value={userName}
+							onChange={(e) => dispatch(setUserName(e.target.value))}
 						/>
 					</div>
 
 					<div className='window'>
 						<ul className='windowChat'>
-							{allMessages.map(({ username, message }, index) => (
+							{allMessages.map(({ userName, message }, index) => (
 								<li key={index} className='message'>
-									{username}: {message}
+									{userName}: {message}
 								</li>
 							))}
 						</ul>
@@ -101,7 +111,7 @@ const Home = () => {
 						<form className='form' onSubmit={handleSubmit}>
 							<input
 								className='inputMessage'
-								disabled={!username}
+								disabled={!userName}
 								name='message'
 								placeholder='введите своё число'
 								value={message}
@@ -113,7 +123,7 @@ const Home = () => {
 							<button
 								className='submitButton'
 								type='submit'
-								disabled={!username || !message}
+								disabled={!userName || !message}
 							>
 								Send
 							</button>

@@ -1,10 +1,10 @@
-import { gameConfig, socketEvents } from '@constants/commonConstants'
+import { gameConfig, socketEvents } from 'src/constants/commonConstants'
 import { serverState } from '../socket'
 import {
 	getRandomIntInRange,
 	getUpdatedStatistic,
 	getWinningMessage,
-} from '@utils/commonUtils'
+} from 'src/utils/commonUtils'
 import { Server } from 'socket.io'
 
 export const roundsLogic = (io: Server) =>
@@ -13,14 +13,14 @@ export const roundsLogic = (io: Server) =>
 		// сообщение "число загадо!"
 		setTimeout(() => {
 			io.emit(socketEvents.RECEIVE_MESSAGE, {
-				username: gameConfig.SERVER_NAME,
+				userName: gameConfig.SERVER_NAME,
 				message: gameConfig.WINNING_NUMBER_CREATED_MESSAGE,
 			})
 		}, 1 * 1000)
 
 		if (!serverState.messages.length) {
 			io.emit(socketEvents.RECEIVE_MESSAGE, {
-				username: gameConfig.SERVER_NAME,
+				userName: gameConfig.SERVER_NAME,
 				message: gameConfig.NO_PLAYERS_MESSAGE,
 			})
 			return
@@ -36,7 +36,7 @@ export const roundsLogic = (io: Server) =>
 		})
 
 		io.emit(socketEvents.RECEIVE_MESSAGE, {
-			username: gameConfig.SERVER_NAME,
+			userName: gameConfig.SERVER_NAME,
 			message: gameConfig.GET_RESULT_MESSAGE({ winningNumber, winningMessage }),
 		})
 
