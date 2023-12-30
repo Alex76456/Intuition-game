@@ -36,8 +36,11 @@ https://mindgame-oaiusxee.b4a.run/
 
 - Переработать стили
 - Подключить базу данных
-- Разбить index.js на компоненты
-- Переписать CSS на style.module
+- Переписать CSS на @emotion/css
+
+## Архитектура:
+
+https://miro.com/app/board/uXjVN-RHdrQ=/?share_link_id=744769257677
 
 ## Доска разработки:
 

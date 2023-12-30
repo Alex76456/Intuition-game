@@ -47,7 +47,7 @@ export const roundsLogic = (io: Server, cb) =>
 			winningMessage,
 		})
 
-		/* cb() */
+		cb()
 
 		io.emit(socketEvents.STATISTIC_MESSAGE, serverState.statistic)
 		serverState.messages = []

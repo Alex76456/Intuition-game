@@ -2,7 +2,7 @@ import { gameConfig, socketEvents } from 'src/constants/commonConstants'
 import { serverState } from '../socket'
 import { Server } from 'socket.io'
 
-export const onConnectionLogic = (io: Server, cb) =>
+export const onConnectionLogic = (io: Server /* , cb */) =>
 	io.on('connection', async (socket) => {
 		/* \ */
 		// приветствуем нового юзера
