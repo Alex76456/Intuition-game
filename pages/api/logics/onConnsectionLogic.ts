@@ -2,8 +2,9 @@ import { gameConfig, socketEvents } from 'src/constants/commonConstants'
 import { serverState } from '../socket'
 import { Server } from 'socket.io'
 
-export const onConnectionLogic = (io: Server) =>
-	io.on('connection', (socket) => {
+export const onConnectionLogic = (io: Server, cb) =>
+	io.on('connection', async (socket) => {
+		/* \ */
 		// приветствуем нового юзера
 		io.to(socket.id).emit(socketEvents.RECEIVE_MESSAGE, {
 			userName: gameConfig.SERVER_NAME,

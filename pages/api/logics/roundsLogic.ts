@@ -7,7 +7,7 @@ import {
 } from 'src/utils/commonUtils'
 import { Server } from 'socket.io'
 
-export const roundsLogic = (io: Server) =>
+export const roundsLogic = (io: Server, cb) =>
 	// логика цикла игры
 	setInterval(() => {
 		// сообщение "число загадо!"
@@ -46,6 +46,8 @@ export const roundsLogic = (io: Server) =>
 			messages: serverState.messages,
 			winningMessage,
 		})
+
+		/* cb() */
 
 		io.emit(socketEvents.STATISTIC_MESSAGE, serverState.statistic)
 		serverState.messages = []

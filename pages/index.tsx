@@ -15,6 +15,16 @@ import {
 } from '@redux/slices/commonSlice'
 import { CommonStatisticType, MessageType } from '@allTypes/commonTypes'
 
+import { collection, getDocs } from 'firebase/firestore'
+import { db } from 'db/firebase'
+
+const getTest = async () => {
+	const querySnapshot = await getDocs(collection(db, 'test'))
+	querySnapshot.forEach((doc) => {
+		console.log(`${doc.id} => ${doc.data()}`)
+	})
+}
+
 const Home = () => {
 	const dispatch = useDispatch()
 	const userName = useSelector(getUserName)
@@ -39,6 +49,8 @@ const Home = () => {
 
 	useEffect(() => {
 		socketInitializer()
+
+		getTest()
 		return () => {
 			socket.current.disconnect()
 		}
