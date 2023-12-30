@@ -36,7 +36,7 @@ https://mindgame-oaiusxee.b4a.run/
 
 - Переработать стили
 - Подключить базу данных
-- Переписать CSS на style.module
+- Переписать CSS на @emotion/css
 
 ## Архитектура:
 
