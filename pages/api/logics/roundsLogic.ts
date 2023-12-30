@@ -4,10 +4,11 @@ import {
 	getRandomIntInRange,
 	getUpdatedStatistic,
 	getWinningMessage,
+	setStatisticToDB,
 } from 'src/utils/commonUtils'
 import { Server } from 'socket.io'
 
-export const roundsLogic = (io: Server, cb) =>
+export const roundsLogic = (io: Server) =>
 	// логика цикла игры
 	setInterval(() => {
 		// сообщение "число загадо!"
@@ -47,7 +48,7 @@ export const roundsLogic = (io: Server, cb) =>
 			winningMessage,
 		})
 
-		cb()
+		setStatisticToDB(serverState.statistic)
 
 		io.emit(socketEvents.STATISTIC_MESSAGE, serverState.statistic)
 		serverState.messages = []

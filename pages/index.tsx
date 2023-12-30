@@ -11,17 +11,6 @@ import { NickInput } from 'src/components/nickInput/nickInput'
 import { Chat } from 'src/components/chat/chat'
 import { Socket } from 'socket.io-client'
 
-import { collection, getDocs } from 'firebase/firestore'
-
-import { db } from 'db/firebase'
-
-const getTest = async () => {
-	const querySnapshot = await getDocs(collection(db, 'test'))
-	querySnapshot.forEach((doc) => {
-		console.log(`${doc.id} => ${doc.data()}`)
-	})
-}
-
 const Home: FC = () => {
 	const dispatch = useDispatch()
 	const socket = useRef<Socket>(null)
@@ -29,7 +18,6 @@ const Home: FC = () => {
 	useEffect(() => {
 		socketInitializer()
 
-		getTest()
 		return () => {
 			socket.current.disconnect()
 		}

@@ -1,6 +1,10 @@
 import { MessageType } from '@allTypes/commonTypes'
 import { getRemainingSeconds, getResultMessage } from '@utils/commonUtils'
 
+export const APP_NAME = 'intuitionGame'
+
+export const APP_ID = '76456'
+
 export const socketEvents = {
 	RECEIVE_MESSAGE: 'receive-message',
 	SEND_MESSAGE: 'send-message',
@@ -20,7 +24,7 @@ export const BOT_NAMES = [
   "Botan",
   "Botkins",
   "BotBorod", */
-	'Botusha',
+	/* 'Botusha', */
 	'BotRutdinov',
 	'BotJamesBot',
 ]
@@ -29,10 +33,10 @@ export const gameConfig = {
 	INFO_MESSAGE_NAME: '. . . ',
 	SERVER_NAME: 'SERVER',
 
-	GAME_DURATION: 45 * 1000,
+	GAME_DURATION: 60 * 1000,
 	MIN_RANDOM_NUMBER: 0,
 	MAX_RANDOM_NUMBER: 100,
-	FREQUENCY_BOT_MESSAGES: { min: 10, max: 90 },
+	FREQUENCY_BOT_MESSAGES: { min: 20, max: 180 },
 
 	GREETING_MESSAGE:
 		'Добро пожаловать! Число уже загадано, попытайтесь отгадать...',
