@@ -1,5 +1,24 @@
-import { BOT_NAMES, gameConfig } from '@constants/commonConstants'
-import { CommonStatisticType, MessageType } from '@allTypes/commonTypes'
+import {
+	APP_ID,
+	APP_NAME,
+	BOT_NAMES,
+	gameConfig,
+} from '@constants/commonConstants'
+import {
+	CommonStatisticType,
+	MessageType,
+	ServerStateType,
+} from '@allTypes/commonTypes'
+import {
+	collection,
+	doc,
+	getDoc,
+	getDocs,
+	setDoc,
+	updateDoc,
+} from 'firebase/firestore'
+
+import { db } from 'db/firebase'
 
 export const getRandomIntInRange = ({
 	min,
@@ -165,4 +184,35 @@ export const getUpdatedStatistic = ({
 	statistic[winningMessage.userName].wins++
 
 	return statistic
+}
+
+export const setStatisticToDB = async (newStatistic: CommonStatisticType) => {
+	try {
+		const dbRef = doc(db, APP_NAME, APP_ID)
+		const dbData = await getDoc(dbRef)
+
+		if (!dbData.exists()) {
+			const dbRef = doc(db, APP_NAME, APP_ID)
+
+			await setDoc(dbRef, newStatistic)
+		} else {
+			await updateDoc(dbRef, newStatistic)
+		}
+	} catch (error) {
+		console.log('Ошибка при загрузке данных в Firestore:', error)
+		return
+	}
+}
+
+export const getStartStatisticFromDB = async (serverState: ServerStateType) => {
+	const roomsCollection = collection(db, APP_NAME)
+
+	try {
+		const roomsSnapshot = await getDocs(roomsCollection)
+		const statisticDB = roomsSnapshot.docs[0].data()
+
+		serverState.statistic = statisticDB
+	} catch (error) {
+		console.error('Ошибка при зарузке игроков из Firestore:', error)
+	}
 }

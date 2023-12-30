@@ -9,7 +9,7 @@ export type ICommonState = {
 }
 
 const initialState: ICommonState = {
-	userName: `User(${getRandomIntInRange({ min: 1, max: 999 })})`,
+	userName: `User-${getRandomIntInRange({ min: 1, max: 999 })}`,
 	allMessages: [],
 	statistic: {},
 }

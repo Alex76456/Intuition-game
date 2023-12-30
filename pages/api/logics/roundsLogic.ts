@@ -4,6 +4,7 @@ import {
 	getRandomIntInRange,
 	getUpdatedStatistic,
 	getWinningMessage,
+	setStatisticToDB,
 } from 'src/utils/commonUtils'
 import { Server } from 'socket.io'
 
@@ -46,6 +47,8 @@ export const roundsLogic = (io: Server) =>
 			messages: serverState.messages,
 			winningMessage,
 		})
+
+		setStatisticToDB(serverState.statistic)
 
 		io.emit(socketEvents.STATISTIC_MESSAGE, serverState.statistic)
 		serverState.messages = []

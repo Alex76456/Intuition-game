@@ -12,6 +12,8 @@ export const serverState: ServerStateType = {
 	statistic: {},
 }
 
+import { getStartStatisticFromDB } from '@utils/commonUtils'
+
 export default function SocketHandler(req, res) {
 	if (res.socket.server.io) {
 		console.log('Already set up')
@@ -19,13 +21,13 @@ export default function SocketHandler(req, res) {
 		return
 	}
 
+	getStartStatisticFromDB(serverState)
+
 	const io = new Server(res.socket.server)
 	res.socket.server.io = io
 
 	onConnectionLogic(io)
-
 	botsLogic(io)
-
 	roundsLogic(io)
 
 	console.log('Setting up socket')
