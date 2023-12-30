@@ -1,12 +1,14 @@
 import { socketEvents } from '@constants/commonConstants'
 import { getAllMessages, getUserName } from '@redux/selectors/commonSelectors'
-import React, { FC, RefObject, useState } from 'react'
+import React, { FC, RefObject, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Socket } from 'socket.io-client'
 
 type IChatProps = {
 	socketRef: RefObject<Socket>
 }
+
+const MAX_DIF_TO_SCROLL_TO_BOTTOM = 55
 
 export const Chat: FC<IChatProps> = ({ socketRef }) => {
 	const userName = useSelector(getUserName)
@@ -16,7 +18,6 @@ export const Chat: FC<IChatProps> = ({ socketRef }) => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
-		console.log('emitted')
 		socketRef.current.emit(socketEvents.SEND_MESSAGE, {
 			userName,
 			message,
@@ -24,9 +25,31 @@ export const Chat: FC<IChatProps> = ({ socketRef }) => {
 		setMessage('')
 	}
 
+	useEffect(() => {
+		const messagesList = document.getElementById('messagesList')
+		const lastMessageElement = messagesList.lastElementChild
+
+		if (!lastMessageElement) {
+			return
+		}
+
+		const lastMessage = allMessages[allMessages.length - 1]
+		const isUserLastMessage = lastMessage.userName === userName
+
+		const isScrolledToBottom =
+			messagesList.scrollHeight -
+				messagesList.scrollTop -
+				messagesList.clientHeight <
+			MAX_DIF_TO_SCROLL_TO_BOTTOM
+
+		if (isScrolledToBottom || isUserLastMessage) {
+			lastMessageElement.scrollIntoView({ behavior: 'smooth' })
+		}
+	}, [allMessages])
+
 	return (
 		<div className='window'>
-			<ul className='windowChat'>
+			<ul id={'messagesList'} className='windowChat'>
 				{allMessages.map(({ userName, message }, index) => (
 					<li key={index} className='message'>
 						{userName}: {message}
