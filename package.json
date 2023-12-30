@@ -1,37 +1,37 @@
 {
-  "name": "simple-chat-socketio",
-  "version": "1.0.0",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@reduxjs/toolkit": "^2.0.1",
-    "firebase": "^10.7.1",
-    "next": "12.1.6",
-    "react": "18.1.0",
-    "react-dom": "18.1.0",
-    "react-redux": "^9.0.4",
-    "react-scroll": "^1.9.0",
-    "redux": "^5.0.0",
-    "socket.io": "^4.5.0",
-    "socket.io-client": "^4.5.0"
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "@types/node": "^20.10.5",
-    "@types/react": "^18.2.45",
-    "eslint": "8.15.0",
-    "eslint-config-next": "^14.0.4",
-    "eslint-import-resolver-alias": "^1.1.2",
-    "eslint-plugin-react": "^7.33.2",
-    "typescript": "^5.3.3"
-  },
-  "keywords": [],
-  "description": "",
-  "main": "index.js",
-  "repository": "https://github.com/Sovolap/12-2023_group_2.git",
-  "author": "Alex76456 <70705720+Alex76456@users.noreply.github.com>"
+	"name": "simple-chat-socketio",
+	"version": "1.0.0",
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"@reduxjs/toolkit": "^2.0.1",
+		"eslint-import-resolver-alias": "^1.1.2",
+		"firebase": "^10.7.1",
+		"next": "12.1.6",
+		"react": "18.1.0",
+		"react-dom": "18.1.0",
+		"react-redux": "^9.0.4",
+		"react-scroll": "^1.9.0",
+		"redux": "^5.0.0",
+		"socket.io": "^4.5.0",
+		"socket.io-client": "^4.5.0"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"@types/node": "^20.10.5",
+		"@types/react": "^18.2.45",
+		"eslint": "8.15.0",
+		"eslint-config-next": "^14.0.4",
+		"eslint-plugin-react": "^7.33.2",
+		"typescript": "^5.3.3"
+	},
+	"keywords": [],
+	"description": "",
+	"main": "index.js",
+	"repository": "https://github.com/Sovolap/12-2023_group_2.git",
+	"author": "Alex76456 <70705720+Alex76456@users.noreply.github.com>"
 }
