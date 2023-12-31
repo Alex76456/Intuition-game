@@ -2,9 +2,7 @@
 
 ## Проект доступен по ссылке:
 
-https://mindgame-oaiusxee.b4a.run/
-
-** ссылка актуальна до 11.01.2024 **
+https://intuitiongame.onrender.com/
 
 ## Как зупустить локально:
 
