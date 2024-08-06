@@ -29,7 +29,6 @@ https://intuitiongame.onrender.com/
 ## Команда разработки:
 
 - Alex76456 https://github.com/Alex76456
-- stelzf117 https://github.com/stelzf117
 
 ## Планы по доработке:
 
