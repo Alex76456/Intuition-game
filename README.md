@@ -7,6 +7,7 @@ https://intuitiongame.onrender.com/
 ## Как зупустить локально:
 
 - `npm install` или `yarn`
+- `npm run build` или `yarn build`
 - `npm run dev` или `yarn dev`
 
 ## Возможности приложения:
