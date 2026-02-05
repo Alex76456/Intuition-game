@@ -50,11 +50,27 @@ export const Chat: FC<IChatProps> = ({ socketRef }) => {
 	return (
 		<div className='window'>
 			<ul id={'messagesList'} className='windowChat'>
-				{allMessages.map(({ userName, message }, index) => (
-					<li key={index} className='message'>
-						{userName}: {message}
-					</li>
-				))}
+				{allMessages.map(({ userName: authorName, message }, index) => {
+					const isOwnMessage = authorName === userName
+					const isBotMessage = authorName.toLowerCase().includes('bot')
+
+					const messageClasses = ['message']
+
+					if (isOwnMessage) {
+						messageClasses.push('message--own')
+					}
+
+					if (isBotMessage) {
+						messageClasses.push('message--bot')
+					}
+
+					return (
+						<li key={index} className={messageClasses.join(' ')}>
+							<span className='messageUser'>{authorName}:</span>{' '}
+							<span className='messageText'>{message}</span>
+						</li>
+					)
+				})}
 			</ul>
 
 			<form className='form' onSubmit={handleSubmit}>
