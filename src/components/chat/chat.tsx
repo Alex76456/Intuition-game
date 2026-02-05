@@ -16,11 +16,35 @@ export const Chat: FC<IChatProps> = ({ socketRef }) => {
 
 	const [message, setMessage] = useState<string>('')
 
+	const handleChange = (e) => {
+		const value = e.target.value
+
+		if (value === '') {
+			setMessage('')
+			return
+		}
+
+		const numeric = Number(value)
+
+		if (Number.isNaN(numeric) || numeric < 0) {
+			return
+		}
+
+		setMessage(value)
+	}
+
 	const handleSubmit = (e) => {
 		e.preventDefault()
+
+		const numeric = Number(message)
+
+		if (!message || Number.isNaN(numeric) || numeric < 0) {
+			return
+		}
+
 		socketRef.current.emit(socketEvents.SEND_MESSAGE, {
 			userName,
-			message,
+			message: numeric,
 		})
 		setMessage('')
 	}
@@ -50,11 +74,27 @@ export const Chat: FC<IChatProps> = ({ socketRef }) => {
 	return (
 		<div className='window'>
 			<ul id={'messagesList'} className='windowChat'>
-				{allMessages.map(({ userName, message }, index) => (
-					<li key={index} className='message'>
-						{userName}: {message}
-					</li>
-				))}
+				{allMessages.map(({ userName: authorName, message }, index) => {
+					const isOwnMessage = authorName === userName
+					const isBotMessage = authorName.toLowerCase().includes('bot')
+
+					const messageClasses = ['message']
+
+					if (isOwnMessage) {
+						messageClasses.push('message--own')
+					}
+
+					if (isBotMessage) {
+						messageClasses.push('message--bot')
+					}
+
+					return (
+						<li key={index} className={messageClasses.join(' ')}>
+							<span className='messageUser'>{authorName}:</span>{' '}
+							<span className='messageText'>{message}</span>
+						</li>
+					)
+				})}
 			</ul>
 
 			<form className='form' onSubmit={handleSubmit}>
@@ -64,9 +104,9 @@ export const Chat: FC<IChatProps> = ({ socketRef }) => {
 					name='message'
 					placeholder='введите своё число'
 					value={message}
-					onChange={(e) => setMessage(e.target.value)}
+					onChange={handleChange}
 					autoComplete={'off'}
-					type='number'
+					min={0}
 					size={3}
 				/>
 				<button
