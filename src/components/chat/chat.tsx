@@ -16,11 +16,35 @@ export const Chat: FC<IChatProps> = ({ socketRef }) => {
 
 	const [message, setMessage] = useState<string>('')
 
+	const handleChange = (e) => {
+		const value = e.target.value
+
+		if (value === '') {
+			setMessage('')
+			return
+		}
+
+		const numeric = Number(value)
+
+		if (Number.isNaN(numeric) || numeric < 0) {
+			return
+		}
+
+		setMessage(value)
+	}
+
 	const handleSubmit = (e) => {
 		e.preventDefault()
+
+		const numeric = Number(message)
+
+		if (!message || Number.isNaN(numeric) || numeric < 0) {
+			return
+		}
+
 		socketRef.current.emit(socketEvents.SEND_MESSAGE, {
 			userName,
-			message,
+			message: numeric,
 		})
 		setMessage('')
 	}
@@ -80,9 +104,9 @@ export const Chat: FC<IChatProps> = ({ socketRef }) => {
 					name='message'
 					placeholder='введите своё число'
 					value={message}
-					onChange={(e) => setMessage(e.target.value)}
+					onChange={handleChange}
 					autoComplete={'off'}
-					type='number'
+					min={0}
 					size={3}
 				/>
 				<button
