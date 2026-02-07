@@ -1,8 +1,10 @@
 import { getStatistic } from '@redux/selectors/commonSelectors'
 import React, { FC } from 'react'
 import { useSelector } from 'react-redux'
+import { useStyles } from './leaderBoardStyles'
 
 export const LeaderBoard: FC = () => {
+	const classes = useStyles()
 	const statistic = useSelector(getStatistic)
 
 	const accuracyLeaders = Object.entries(statistic).sort(
@@ -19,26 +21,26 @@ export const LeaderBoard: FC = () => {
 	)
 
 	return (
-		<div className='leaderboard'>
-			<h2>Таблица лидеров по точности</h2>
-			<ul className='leaderboardList'>
+		<div className={classes.leaderboard}>
+			<h2 className={classes.title}>Таблица лидеров по точности</h2>
+			<ul className={classes.list}>
 				{accuracyLeaders.map((user, index) => (
 					<li key={user[0]}>{`${index + 1}. ${user[0]} (Ср. точность: ${
 						user[1].averageAccuracy
 					}%)`}</li>
 				))}
 			</ul>
-			<h2>Таблица лидеров по количеству побед</h2>
-			<ul>
+			<h2 className={classes.title}>Таблица лидеров по количеству побед</h2>
+			<ul className={classes.list}>
 				{winsLeaders.map((user, index) => (
 					<li key={user[0]}>{`${index + 1}. ${user[0]} (Побед: ${
 						user[1].wins
 					})`}</li>
-				))}{' '}
+				))}
 			</ul>
 
-			<h2>Таблица лидеров по участию в играх</h2>
-			<ul>
+			<h2 className={classes.title}>Таблица лидеров по участию в играх</h2>
+			<ul className={classes.list}>
 				{gamesPlayedLeaders.map((user, index) => (
 					<li key={user[0]}>{`${index + 1}. ${user[0]} (Сыграно: ${
 						user[1].gamesPlayed
@@ -46,8 +48,10 @@ export const LeaderBoard: FC = () => {
 				))}
 			</ul>
 
-			<h2>Таблица лидеров по количеству предложений</h2>
-			<ul>
+			<h2 className={classes.title}>
+				Таблица лидеров по количеству предложений
+			</h2>
+			<ul className={classes.list}>
 				{numbersSuggestedLeaders.map((user, index) => (
 					<li key={user[0]}>{`${index + 1}. ${user[0]} (Предложено: ${
 						user[1].numbersSuggested

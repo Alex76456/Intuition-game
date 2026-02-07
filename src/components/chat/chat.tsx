@@ -3,6 +3,7 @@ import { getAllMessages, getUserName } from '@redux/selectors/commonSelectors'
 import React, { FC, RefObject, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Socket } from 'socket.io-client'
+import { useStyles } from './chatStyles'
 
 type IChatProps = {
 	socketRef: RefObject<Socket>
@@ -11,12 +12,13 @@ type IChatProps = {
 const MAX_DIF_TO_SCROLL_TO_BOTTOM = 55
 
 export const Chat: FC<IChatProps> = ({ socketRef }) => {
+	const classes = useStyles()
 	const userName = useSelector(getUserName)
 	const allMessages = useSelector(getAllMessages)
 
 	const [message, setMessage] = useState<string>('')
 
-	const handleChange = (e) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const value = e.target.value
 
 		if (value === '') {
@@ -33,7 +35,7 @@ export const Chat: FC<IChatProps> = ({ socketRef }) => {
 		setMessage(value)
 	}
 
-	const handleSubmit = (e) => {
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
 		const numeric = Number(message)
@@ -42,7 +44,7 @@ export const Chat: FC<IChatProps> = ({ socketRef }) => {
 			return
 		}
 
-		socketRef.current.emit(socketEvents.SEND_MESSAGE, {
+		socketRef.current?.emit(socketEvents.SEND_MESSAGE, {
 			userName,
 			message: numeric,
 		})
@@ -51,7 +53,13 @@ export const Chat: FC<IChatProps> = ({ socketRef }) => {
 
 	useEffect(() => {
 		const messagesList = document.getElementById('messagesList')
-		const lastMessageElement = messagesList.lastElementChild
+
+		if (!messagesList) {
+			return
+		}
+
+		const lastMessageElement =
+			messagesList.lastElementChild as HTMLElement | null
 
 		if (!lastMessageElement) {
 			return
@@ -69,37 +77,34 @@ export const Chat: FC<IChatProps> = ({ socketRef }) => {
 		if (isScrolledToBottom || isUserLastMessage) {
 			lastMessageElement.scrollIntoView({ behavior: 'smooth' })
 		}
-	}, [allMessages])
+	}, [allMessages, userName])
 
 	return (
-		<div className='window'>
-			<ul id={'messagesList'} className='windowChat'>
+		<div className={classes.window}>
+			<ul id={'messagesList'} className={classes.windowChat}>
 				{allMessages.map(({ userName: authorName, message }, index) => {
 					const isOwnMessage = authorName === userName
 					const isBotMessage = authorName.toLowerCase().includes('bot')
 
-					const messageClasses = ['message']
-
-					if (isOwnMessage) {
-						messageClasses.push('message--own')
-					}
-
-					if (isBotMessage) {
-						messageClasses.push('message--bot')
-					}
+					const baseClass = classes.message
+					const stateClass = isOwnMessage
+						? classes.messageOwnState
+						: isBotMessage
+						? classes.messageBotState
+						: baseClass
 
 					return (
-						<li key={index} className={messageClasses.join(' ')}>
-							<span className='messageUser'>{authorName}:</span>{' '}
-							<span className='messageText'>{message}</span>
+						<li key={index} className={stateClass}>
+							<span className={classes.messageUser}>{authorName}:</span>{' '}
+							<span className={classes.messageText}>{message}</span>
 						</li>
 					)
 				})}
 			</ul>
 
-			<form className='form' onSubmit={handleSubmit}>
+			<form className={classes.form} onSubmit={handleSubmit}>
 				<input
-					className='inputMessage'
+					className={classes.inputMessage}
 					disabled={!userName}
 					name='message'
 					placeholder='введите своё число'
@@ -110,7 +115,7 @@ export const Chat: FC<IChatProps> = ({ socketRef }) => {
 					size={3}
 				/>
 				<button
-					className='submitButton'
+					className={classes.submitButton}
 					type='submit'
 					disabled={!userName || !message}
 				>

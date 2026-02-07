@@ -1,6 +1,6 @@
 import { SOCKET_URL, socketEvents } from '@constants/commonConstants'
 import React, { FC, useEffect, useRef } from 'react'
-import io from 'socket.io-client'
+import io, { Socket } from 'socket.io-client'
 
 import { useDispatch } from 'react-redux'
 import { addMessage, setStatistic } from '@redux/slices/commonSlice'
@@ -9,19 +9,12 @@ import { Rules } from 'src/components/rules/rules'
 import { LeaderBoard } from 'src/components/leaderBoard/leaderBoard'
 import { NickInput } from 'src/components/nickInput/nickInput'
 import { Chat } from 'src/components/chat/chat'
-import { Socket } from 'socket.io-client'
+import { useStyles } from './indexStyles'
 
 const Home: FC = () => {
+	const classes = useStyles()
 	const dispatch = useDispatch()
-	const socket = useRef<Socket>(null)
-
-	useEffect(() => {
-		socketInitializer()
-
-		return () => {
-			socket.current.disconnect()
-		}
-	}, [])
+	const socket = useRef<Socket | null>(null)
 
 	const socketInitializer = async () => {
 		await fetch(SOCKET_URL)
@@ -38,14 +31,23 @@ const Home: FC = () => {
 		)
 	}
 
+	useEffect(() => {
+		socketInitializer()
+
+		return () => {
+			socket.current?.disconnect()
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
+
 	return (
-		<div className='main'>
+		<div className={classes.main}>
 			<Rules />
 
-			<div className='mainWrapper'>
-				<div className='mainInner'>
-					<div className='name'>
-						<h1 className='nameTitle'>Great Intuition the Game</h1>
+			<div className={classes.mainWrapper}>
+				<div className={classes.mainInner}>
+					<div className={classes.name}>
+						<h1 className={classes.nameTitle}>Great Intuition the Game</h1>
 					</div>
 
 					<NickInput />
