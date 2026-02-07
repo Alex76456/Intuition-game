@@ -50,7 +50,6 @@ export type AppTheme = {
 		xl: number
 		full: number
 	}
-	spacing: (factor: number) => number
 }
 
 export const appTheme: AppTheme = {
@@ -105,5 +104,4 @@ export const appTheme: AppTheme = {
 		xl: 24,
 		full: 999,
 	},
-	spacing: (factor: number) => factor * 4,
 }
