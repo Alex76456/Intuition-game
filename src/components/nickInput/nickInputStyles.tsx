@@ -19,6 +19,38 @@ export const useStyles = createUseStyles((theme: AppTheme) => ({
 		letterSpacing: '0.09em',
 		color: theme.colors.textSecondary,
 	},
+	displayRow: {
+		display: 'flex',
+		alignItems: 'center',
+		gap: 12,
+		width: '100%',
+		flexWrap: 'wrap',
+	},
+	nickValue: {
+		fontSize: 20,
+		color: theme.colors.textAccentSoft,
+		fontWeight: 500,
+	},
+	changeButton: {
+		padding: '8px 16px',
+		fontSize: 14,
+		fontWeight: 500,
+		color: theme.colors.buttonPrimaryText,
+		background: `linear-gradient(180deg, ${theme.colors.buttonPrimaryBackgroundFrom}, ${theme.colors.buttonPrimaryBackgroundTo})`,
+		border: 'none',
+		borderRadius: 10,
+		boxShadow: theme.shadow.buttonPrimary,
+		cursor: 'pointer',
+		transition: 'opacity 0.2s ease, transform 0.1s ease',
+		'&:hover': {
+			boxShadow: theme.shadow.buttonPrimaryHover,
+			opacity: 0.95,
+		},
+		'&:active': {
+			transform: 'scale(0.98)',
+			boxShadow: theme.shadow.buttonPrimaryActive,
+		},
+	},
 	input: {
 		outline: 'none',
 		padding: '10px 12px',

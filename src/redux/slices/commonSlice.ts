@@ -1,15 +1,16 @@
 import { CommonStatisticType, MessageType } from '@allTypes/commonTypes'
 import { createSlice } from '@reduxjs/toolkit'
-import { getRandomIntInRange } from '@utils/commonUtils'
 
 export type ICommonState = {
 	userName: string
+	nickConfirmed: boolean
 	allMessages: MessageType[]
 	statistic: CommonStatisticType
 }
 
 const initialState: ICommonState = {
-	userName: `User-${getRandomIntInRange({ min: 1, max: 999 })}`,
+	userName: '',
+	nickConfirmed: false,
 	allMessages: [],
 	statistic: {},
 }
@@ -21,6 +22,9 @@ const commonSlice = createSlice({
 		setUserName: (state, action) => {
 			state.userName = action.payload
 		},
+		setNickConfirmed: (state, action: { payload: boolean }) => {
+			state.nickConfirmed = action.payload
+		},
 		setStatistic: (state, action) => {
 			state.statistic = action.payload
 		},
@@ -31,6 +35,7 @@ const commonSlice = createSlice({
 	},
 })
 
-export const { setUserName, setStatistic, addMessage } = commonSlice.actions
+export const { setUserName, setNickConfirmed, setStatistic, addMessage } =
+	commonSlice.actions
 
 export const commonReducer = commonSlice.reducer
