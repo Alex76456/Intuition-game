@@ -2,11 +2,20 @@ import React from 'react'
 import Head from 'next/head'
 import type { AppProps } from 'next/app'
 import { Provider } from 'react-redux'
-import { ThemeProvider } from 'react-jss'
+import { ThemeProvider, JssProvider } from 'react-jss'
+import type { GenerateId } from 'jss'
 
 import { store } from '@redux/store'
 import { appTheme } from '@styles/theme'
 import { useGlobalStyles } from '@styles/globalStyles'
+
+// Детерминированный generateId: один и тот же (sheet, rule) даёт один и тот же класс
+// на сервере и клиенте. Иначе после перезагрузки имена классов не совпадают и стили ломаются.
+const generateId: GenerateId = (rule, sheet) => {
+	const opts = sheet?.options as { name?: string } | undefined
+	const name = (opts?.name ?? 's').toString().replace(/\s/g, '')
+	return `gi-${name}-${rule.key}`
+}
 
 const AppInner: React.FC<AppProps> = ({ Component, pageProps, router }) => {
 	useGlobalStyles()
@@ -41,9 +50,11 @@ const AppInner: React.FC<AppProps> = ({ Component, pageProps, router }) => {
 export default function MyApp(appProps: AppProps) {
 	return (
 		<Provider store={store}>
-			<ThemeProvider theme={appTheme}>
-				<AppInner {...appProps} />
-			</ThemeProvider>
+			<JssProvider generateId={generateId}>
+				<ThemeProvider theme={appTheme}>
+					<AppInner {...appProps} />
+				</ThemeProvider>
+			</JssProvider>
 		</Provider>
 	)
 }
