@@ -4,10 +4,16 @@
 
 https://intuitiongame.onrender.com/
 
-## Как зупустить локально:
+## Требования:
+
+- Node.js версии 16 и выше
+- npm или yarn
+
+## Как запустить локально:
 
 - `npm install` или `yarn`
 - `npm run build` или `yarn build`
+- после сборки: `npm start` или `yarn start`
 - `npm run dev` или `yarn dev`
 
 ## Возможности приложения:
