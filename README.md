@@ -31,7 +31,7 @@ https://intuitiongame.onrender.com/
 - Redux Toolkit
 - TypeScript
 - React
-- CSS
+- React-JSS
 
 ## Команда разработки:
 
