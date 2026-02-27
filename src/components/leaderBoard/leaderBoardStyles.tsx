@@ -38,6 +38,26 @@ export const useStyles = createUseStyles(
 			letterSpacing: '0.08em',
 			color: theme.colors.textAccentSoft,
 		},
+		currentUserBlock: {
+			marginTop: 4,
+			marginBottom: 12,
+			padding: '10px 12px',
+			borderRadius: theme.radius.lg,
+			background: theme.colors.mainBackgroundHighlight,
+			border: `1px solid ${theme.colors.surfaceAccentGreen}`,
+		},
+		currentUserTitle: {
+			margin: 0,
+			fontSize: 16,
+			fontWeight: 600,
+			color: theme.colors.textPrimary,
+		},
+		currentUserList: {
+			margin: '6px 0 0 0',
+			paddingLeft: 18,
+			color: theme.colors.textSecondary,
+			fontSize: 14,
+		},
 		list: {
 			margin: '8px 0 0 0',
 			padding: 0,
@@ -47,6 +67,22 @@ export const useStyles = createUseStyles(
 			gap: 6,
 			fontSize: 14,
 			color: theme.colors.leaderboardText,
+		},
+		listItem: {
+			padding: '4px 6px',
+			borderRadius: theme.radius.lg,
+		},
+		listItemOwn: {
+			extend: 'listItem',
+			background: theme.colors.mainBackgroundHighlight,
+			border: `1px solid ${theme.colors.surfaceAccentGreen}`,
+			color: theme.colors.textPrimary,
+			fontWeight: 600,
+		},
+		youBadge: {
+			marginLeft: 4,
+			fontSize: 12,
+			color: theme.colors.surfaceAccentGreen,
 		},
 	}),
 	{ name: 'LeaderBoard' }

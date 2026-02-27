@@ -30,6 +30,12 @@ export const useStyles = createUseStyles(
 			color: theme.colors.textPrimary,
 			lineHeight: 1.35,
 		},
+		error: {
+			marginTop: 12,
+			fontSize: 13,
+			color: theme.colors.surfaceAccentPurple,
+			textAlign: 'left',
+		},
 		button: {
 			marginTop: 24,
 			width: '100%',

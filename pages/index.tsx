@@ -1,9 +1,18 @@
-import { SOCKET_URL, socketEvents } from '@constants/commonConstants'
+import {
+	LOCAL_STORAGE_USER_NAME_KEY,
+	SOCKET_URL,
+	socketEvents,
+} from '@constants/commonConstants'
 import React, { FC, useEffect, useRef } from 'react'
 import io, { Socket } from 'socket.io-client'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { addMessage, setStatistic } from '@redux/slices/commonSlice'
+import {
+	addMessage,
+	setNickConfirmed,
+	setStatistic,
+	setUserName,
+} from '@redux/slices/commonSlice'
 import { getNickConfirmed } from '@redux/selectors/commonSelectors'
 import { CommonStatisticType, MessageType } from '@allTypes/commonTypes'
 import { Rules } from 'src/components/rules/rules'
@@ -42,6 +51,25 @@ const Home: FC = () => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
+
+	useEffect(() => {
+		if (typeof window === 'undefined') {
+			return
+		}
+
+		try {
+			const storedUserName = window.localStorage.getItem(
+				LOCAL_STORAGE_USER_NAME_KEY
+			)
+
+			if (storedUserName) {
+				dispatch(setUserName(storedUserName))
+				dispatch(setNickConfirmed(true))
+			}
+		} catch {
+			// ignore localStorage errors
+		}
+	}, [dispatch])
 
 	return (
 		<div className={classes.main}>
