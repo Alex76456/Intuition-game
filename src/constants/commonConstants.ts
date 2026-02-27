@@ -5,6 +5,8 @@ export const APP_NAME = 'intuitionGame'
 
 export const APP_ID = '76456'
 
+export const LOCAL_STORAGE_USER_NAME_KEY = `${APP_NAME}_userName`
+
 export const socketEvents = {
 	RECEIVE_MESSAGE: 'receive-message',
 	SEND_MESSAGE: 'send-message',
