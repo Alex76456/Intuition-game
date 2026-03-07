@@ -10,7 +10,7 @@ export const useStyles = createUseStyles(
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
-			background: 'rgba(15, 23, 42, 0.85)',
+			background: theme.colors.overlayBackdrop,
 			backdropFilter: 'blur(8px)',
 			padding: 24,
 		},

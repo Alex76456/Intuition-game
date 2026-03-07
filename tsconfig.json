@@ -8,7 +8,9 @@
 			"@styles/*": ["src/styles/*"],
 			"@utils/*": ["src/utils/*"],
 			"@allTypes/*": ["src/allTypes/*"],
-			"@redux/*": ["src/redux/*"]
+			"@redux/*": ["src/redux/*"],
+			"@contexts/*": ["src/contexts/*"],
+			"@components/*": ["src/components/*"]
 		},
 		"jsx": "preserve",
 		"target": "es5",

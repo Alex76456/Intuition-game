@@ -12,13 +12,13 @@ export const useStyles = createUseStyles(
 			alignItems: 'flex-start',
 			background: `radial-gradient(circle at top left, ${theme.colors.mainBackgroundHighlight} 0, ${theme.colors.backgroundBody} 60%)`,
 			color: theme.colors.textPrimary,
-			padding: '20px 24px',
+			padding: '56px 24px 20px',
 			gap: 20,
 			'@media (max-width: 1200px)': {
 				flexDirection: 'column',
 				alignItems: 'stretch',
 				gap: 16,
-				padding: '16px 16px 24px',
+				padding: '52px 16px 24px',
 			},
 		},
 		mainWrapper: {
@@ -27,7 +27,7 @@ export const useStyles = createUseStyles(
 			background: `linear-gradient(145deg, ${theme.colors.surfacePrimary}, ${theme.colors.backgroundBody})`,
 			borderRadius: 24,
 			boxShadow: theme.shadow.mainWrapper,
-			border: `1px solid rgba(148, 163, 184, 0.25)`,
+			border: `1px solid ${theme.colors.borderSoft}`,
 			maxHeight: 'calc(100vh - 40px)',
 			overflow: 'hidden',
 			'@media (max-width: 1200px)': {

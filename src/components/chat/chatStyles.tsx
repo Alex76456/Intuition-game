@@ -53,7 +53,7 @@ export const useStyles = createUseStyles(
 		messageBot: {},
 		messageUser: {
 			fontWeight: 600,
-			color: '#93c5fd',
+			color: theme.colors.messageUserName,
 			whiteSpace: 'nowrap',
 		},
 		messageText: {
@@ -105,16 +105,16 @@ export const useStyles = createUseStyles(
 			padding: '10px 12px',
 			borderRadius: theme.radius.full,
 			outline: 'none',
-			backgroundColor: 'rgba(15, 23, 42, 0.95)',
+			backgroundColor: theme.colors.inputBackground,
 			color: theme.colors.textAccentSoft,
 			borderWidth: 1,
 			borderStyle: 'solid',
-			borderColor: 'rgba(148, 163, 184, 0.7)',
+			borderColor: theme.colors.inputBorder,
 			transition:
 				'border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, transform 0.1s ease',
 			'&:focus': {
 				borderColor: theme.colors.inputBorderFocusPurple,
-				boxShadow: '0 0 0 1px rgba(168, 85, 247, 0.7)',
+				boxShadow: theme.colors.inputFocusShadow,
 				backgroundColor: theme.colors.inputStrongBackground,
 			},
 			'&:disabled': {

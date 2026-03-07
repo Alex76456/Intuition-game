@@ -65,7 +65,7 @@ export const useStyles = createUseStyles(
 				'border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease',
 			'&:focus': {
 				borderColor: theme.colors.inputBorderFocusBlue,
-				boxShadow: '0 0 0 1px rgba(96, 165, 250, 0.7)',
+				boxShadow: theme.colors.inputFocusShadow,
 				backgroundColor: theme.colors.inputStrongBackground,
 			},
 		},
