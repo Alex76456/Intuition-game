@@ -12,7 +12,7 @@ export const useStyles = createUseStyles(
 			borderRadius: theme.radius.lg,
 			background: `linear-gradient(135deg, ${theme.colors.surfacePrimary}, ${theme.colors.surfaceAccentBlue})`,
 			boxShadow: theme.shadow.window,
-			border: `1px solid rgba(148, 163, 184, 0.35)`,
+			border: `1px solid ${theme.colors.borderSoft}`,
 			overflow: 'hidden',
 		},
 	}),

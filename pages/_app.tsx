@@ -2,11 +2,12 @@ import React from 'react'
 import Head from 'next/head'
 import type { AppProps } from 'next/app'
 import { Provider } from 'react-redux'
-import { ThemeProvider, JssProvider } from 'react-jss'
+import { JssProvider } from 'react-jss'
 import type { GenerateId } from 'jss'
 
 import { store } from '@redux/store'
-import { appTheme } from '@styles/theme'
+import { ThemeContextProvider } from '@contexts/ThemeContext'
+import { Header } from '@components/header/Header'
 import { useGlobalStyles } from '@styles/globalStyles'
 
 // Детерминированный generateId: один и тот же (sheet, rule) даёт один и тот же класс
@@ -42,6 +43,7 @@ const AppInner: React.FC<AppProps> = ({ Component, pageProps, router }) => {
 					href='/favicon_io/favicon-16x16.png'
 				/>
 			</Head>
+			<Header />
 			<Component {...pageProps} router={router} />
 		</div>
 	)
@@ -50,11 +52,11 @@ const AppInner: React.FC<AppProps> = ({ Component, pageProps, router }) => {
 export default function MyApp(appProps: AppProps) {
 	return (
 		<Provider store={store}>
-			<JssProvider generateId={generateId}>
-				<ThemeProvider theme={appTheme}>
+			<ThemeContextProvider>
+				<JssProvider generateId={generateId}>
 					<AppInner {...appProps} />
-				</ThemeProvider>
-			</JssProvider>
+				</JssProvider>
+			</ThemeContextProvider>
 		</Provider>
 	)
 }
