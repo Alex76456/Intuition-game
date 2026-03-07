@@ -43,8 +43,8 @@ const getSortedMessagesByWinning = ({
 }) =>
 	messages.sort(
 		(a, b) =>
-			getNumbersDifference(a.message, winningNumber) -
-			getNumbersDifference(b.message, winningNumber)
+			getNumbersDifference(Number(a.message), winningNumber) -
+			getNumbersDifference(Number(b.message), winningNumber)
 	)
 
 export const getWinningMessage = ({
@@ -77,9 +77,10 @@ export const getRemainingSeconds = ({
 }: {
 	nextResultDate: number
 }) => {
-	return `* ${Math.floor(
-		(nextResultDate - Date.now()) / 1000
-	)} сек до объявления победителя *`
+	const diffSeconds = Math.floor((nextResultDate - Date.now()) / 1000)
+	const safeSeconds = diffSeconds < 0 ? 0 : diffSeconds
+
+	return `* ${safeSeconds} сек до объявления победителя *`
 }
 
 export const getRandomBotMessage = () => {
@@ -140,7 +141,7 @@ export const getUpdatedStatistic = ({
 	const statistic = messages.reduce((acc, cur) => {
 		const newAccuracyRecord = getAccurace({
 			winningNumber,
-			number: cur.message,
+			number: Number(cur.message),
 		})
 
 		if (acc.hasOwnProperty(cur.userName)) {

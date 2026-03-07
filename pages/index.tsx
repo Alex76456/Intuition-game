@@ -20,6 +20,7 @@ import { LeaderBoard } from 'src/components/leaderBoard/leaderBoard'
 import { NickConfirmModal } from 'src/components/nickConfirmModal/nickConfirmModal'
 import { NickInput } from 'src/components/nickInput/nickInput'
 import { Chat } from 'src/components/chat/chat'
+import { GameStatus } from 'src/components/gameStatus/gameStatus'
 import { useStyles } from './indexStyles'
 
 const Home: FC = () => {
@@ -84,6 +85,7 @@ const Home: FC = () => {
 					</div>
 
 					<NickInput mode='display' />
+					<GameStatus />
 					<Chat socketRef={socket} />
 				</div>
 			</div>
