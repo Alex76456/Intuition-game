@@ -1,7 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { BOT_NAMES, gameConfig } from '@constants/commonConstants'
-import { getAllMessages } from '@redux/selectors/commonSelectors'
+import {
+	getAllMessages,
+	getLastRoundResult,
+	getServerTimeLeft,
+} from '@redux/selectors/commonSelectors'
 import { MessageType } from '@allTypes/commonTypes'
 import { BannerState, LastResult, PhaseInfo } from '@allTypes/gameStatusTypes'
 import { useTranslation } from '@hooks/useTranslation'
@@ -14,11 +18,21 @@ const isInfoMessage = (message: MessageType) =>
 
 export const useGameStatus = () => {
 	const allMessages = useSelector(getAllMessages)
+	const serverTimeLeftFromRedux = useSelector(getServerTimeLeft)
+	const lastRoundResultFromRedux = useSelector(getLastRoundResult)
 	const { t } = useTranslation()
 
 	const [timeLeft, setTimeLeft] = useState<number | null>(null)
 	const [banner, setBanner] = useState<BannerState>(null)
 	const bannerTimeoutRef = useRef<number | null>(null)
+
+	useEffect(() => {
+		if (typeof serverTimeLeftFromRedux === 'number') {
+			setTimeLeft(serverTimeLeftFromRedux)
+		} else {
+			setTimeLeft(null)
+		}
+	}, [serverTimeLeftFromRedux])
 
 	const lastServerMessage = useMemo(
 		() =>
@@ -88,31 +102,6 @@ export const useGameStatus = () => {
 	}, [lastServerMessage, t])
 
 	useEffect(() => {
-		if (!lastInfoMessage || typeof lastInfoMessage.message !== 'string') {
-			setTimeLeft(null)
-			return
-		}
-
-		const match = /(-?\d+)\s*сек/.exec(lastInfoMessage.message)
-
-		if (!match) {
-			setTimeLeft(null)
-			return
-		}
-
-		const rawSeconds = Number(match[1])
-
-		if (Number.isNaN(rawSeconds)) {
-			setTimeLeft(null)
-			return
-		}
-
-		const seconds = Math.max(0, rawSeconds)
-
-		setTimeLeft(seconds)
-	}, [lastInfoMessage])
-
-	useEffect(() => {
 		if (timeLeft === null || timeLeft <= 0) {
 			return
 		}
@@ -168,37 +157,24 @@ export const useGameStatus = () => {
 		return { players: Array.from(players), bots: Array.from(bots) }
 	}, [allMessages])
 
-	const lastResult: LastResult | null = useMemo(() => {
-		if (!allMessages.length) {
-			return null
-		}
-
+	const parsedLastResult = useMemo((): LastResult | null => {
+		if (!allMessages.length) return null
 		const serverMessages = [...allMessages].reverse().filter((m) => isServerMessage(m))
-
 		for (const m of serverMessages) {
 			const text = String(m.message)
-
-			if (!text.includes('Загаданное число:')) {
-				continue
-			}
-
-			const match = /Загаданное число:\s*(\d+)[\s\S]*?Победил игрок\s+(.+?)\s+с числом:\s*(\d+)/.exec(
-				text
-			)
-
-			if (!match) {
-				continue
-			}
-
+			if (!text.includes('Загаданное число:')) continue
+			const match = /Загаданное число:\s*(\d+)[\s\S]*?Победил игрок\s+(.+?)\s+с числом:\s*(\d+)/.exec(text)
+			if (!match) continue
 			return {
 				winningNumber: Number(match[1]),
 				winnerName: match[2],
 				winnerNumber: Number(match[3]),
 			}
 		}
-
 		return null
 	}, [allMessages])
+
+	const lastResult: LastResult | null = lastRoundResultFromRedux ?? parsedLastResult
 
 	const phaseInfo: PhaseInfo = useMemo(() => {
 		if (!lastServerMessage) {

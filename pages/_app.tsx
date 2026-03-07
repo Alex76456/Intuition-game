@@ -26,6 +26,15 @@ const AppInner: React.FC<AppProps> = ({ Component, pageProps, router }) => {
 		<div>
 			<Head>
 				<title>Great Intuition</title>
+				<meta
+					name="description"
+					content="Great Intuition — многопользовательская игра на интуицию. Загадай число от 0 до 100 и соревнуйся с другими в реальном времени."
+				/>
+				<meta property="og:title" content="Great Intuition" />
+				<meta
+					property="og:description"
+					content="Многопользовательская игра на интуицию. Загадай число и соревнуйся с другими в реальном времени."
+				/>
 				<link
 					rel='apple-touch-icon'
 					sizes='180x180'

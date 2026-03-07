@@ -78,6 +78,15 @@ export const useStyles = createUseStyles(
 				color: theme.colors.messageBotText,
 			},
 		},
+		messageServerState: {
+			extend: 'message',
+			background: theme.colors.mainBackgroundHighlight,
+			color: theme.colors.textSecondary,
+			border: `1px solid ${theme.colors.borderSoft}`,
+			'& $messageUser': {
+				color: theme.colors.textPrimary,
+			},
+		},
 		'@keyframes messageIn': {
 			from: {
 				opacity: 0,
@@ -91,10 +100,36 @@ export const useStyles = createUseStyles(
 		form: {
 			width: '100%',
 			display: 'flex',
+			flexDirection: 'column',
+			gap: 4,
 			padding: '10px 12px 12px',
 			background: theme.colors.windowBackground,
-			gap: 8,
 			borderTop: `1px solid ${theme.colors.windowBorderTop}`,
+		},
+		formRow: {
+			display: 'flex',
+			gap: 8,
+		},
+		inputHint: {
+			fontSize: 12,
+			color: theme.colors.textSecondary,
+			marginLeft: 4,
+		},
+		alreadySentHint: {
+			fontSize: 13,
+			color: theme.colors.surfaceAccentPurple,
+			marginTop: 2,
+		},
+		visuallyHidden: {
+			position: 'absolute',
+			width: 1,
+			height: 1,
+			padding: 0,
+			margin: -1,
+			overflow: 'hidden',
+			clip: 'rect(0, 0, 0, 0)',
+			whiteSpace: 'nowrap',
+			border: 0,
 		},
 		inputMessage: {
 			border: 'none',
