@@ -1,7 +1,10 @@
 module.exports = {
 	extends: 'next/core-web-vitals',
 	rules: {
-		'no-unused-vars': 'error',
+		'no-unused-vars': [
+			'error',
+			{ argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+		],
 		'no-undef': 'error',
 		'no-const-assign': 'error',
 		'no-undef-init': 'error',

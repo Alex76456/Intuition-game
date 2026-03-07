@@ -3,6 +3,7 @@ import { getAllMessages, getUserName } from '@redux/selectors/commonSelectors'
 import React, { FC, RefObject, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Socket } from 'socket.io-client'
+import { useTranslation } from '@hooks/useTranslation'
 import { useStyles } from './chatStyles'
 
 type IChatProps = {
@@ -13,6 +14,7 @@ const MAX_DIF_TO_SCROLL_TO_BOTTOM = 55
 
 export const Chat: FC<IChatProps> = ({ socketRef }) => {
 	const classes = useStyles()
+	const { t } = useTranslation()
 	const userName = useSelector(getUserName)
 	const allMessages = useSelector(getAllMessages)
 
@@ -107,7 +109,7 @@ export const Chat: FC<IChatProps> = ({ socketRef }) => {
 					className={classes.inputMessage}
 					disabled={!userName}
 					name='message'
-					placeholder='введите своё число'
+					placeholder={t('введите своё число')}
 					value={message}
 					onChange={handleChange}
 					autoComplete={'off'}
@@ -119,7 +121,7 @@ export const Chat: FC<IChatProps> = ({ socketRef }) => {
 					type='submit'
 					disabled={!userName || !message}
 				>
-					Send
+					{t('Send')}
 				</button>
 			</form>
 		</div>

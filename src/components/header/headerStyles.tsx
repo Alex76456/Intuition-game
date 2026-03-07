@@ -41,6 +41,31 @@ export const useHeaderStyles = createUseStyles(
 				borderColor: theme.colors.borderStrong,
 			},
 		},
+		langGroup: {
+			display: 'flex',
+			borderRadius: theme.radius.full,
+			border: `1px solid ${theme.colors.borderSoft}`,
+			overflow: 'hidden',
+			background: theme.colors.inputBackground,
+		},
+		langBtn: {
+			padding: '8px 12px',
+			border: 'none',
+			background: 'transparent',
+			color: theme.colors.textSecondary,
+			cursor: 'pointer',
+			fontSize: 13,
+			fontWeight: 600,
+			transition: 'background 0.2s ease, color 0.2s ease',
+			'&:hover': {
+				background: theme.colors.mainBackgroundHighlight,
+				color: theme.colors.textPrimary,
+			},
+		},
+		langBtnActive: {
+			background: theme.colors.mainBackgroundHighlight,
+			color: theme.colors.textPrimary,
+		},
 	}),
 	{ name: 'Header' }
 )

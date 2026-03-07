@@ -10,7 +10,9 @@
 			"@allTypes/*": ["src/allTypes/*"],
 			"@redux/*": ["src/redux/*"],
 			"@contexts/*": ["src/contexts/*"],
-			"@components/*": ["src/components/*"]
+			"@components/*": ["src/components/*"],
+			"@locales/*": ["src/locales/*"],
+			"@hooks/*": ["src/hooks/*"]
 		},
 		"jsx": "preserve",
 		"target": "es5",
