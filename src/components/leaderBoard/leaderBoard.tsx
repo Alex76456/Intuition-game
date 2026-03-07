@@ -8,20 +8,28 @@ export const LeaderBoard: FC = () => {
 	const statistic = useSelector(getStatistic)
 	const userName = useSelector(getUserName)
 
-	const currentUserStats = userName ? statistic[userName] : undefined
+	const isBot = (name: string) => name.toLowerCase().includes('bot')
+	const statisticEntries = Object.entries(statistic).filter(
+		([name]) => !isBot(name)
+	)
 
-	const accuracyLeaders = Object.entries(statistic).sort(
+	const currentUserStats =
+		userName && !isBot(userName) ? statistic[userName] : undefined
+
+	const accuracyLeaders = statisticEntries.slice().sort(
 		(a, b) => b[1].averageAccuracy - a[1].averageAccuracy
 	)
-	const winsLeaders = Object.entries(statistic).sort(
+	const winsLeaders = statisticEntries.slice().sort(
 		(a, b) => b[1].wins - a[1].wins
 	)
-	const gamesPlayedLeaders = Object.entries(statistic).sort(
+	const gamesPlayedLeaders = statisticEntries.slice().sort(
 		(a, b) => b[1].gamesPlayed - a[1].gamesPlayed
 	)
-	const numbersSuggestedLeaders = Object.entries(statistic).sort(
+	const numbersSuggestedLeaders = statisticEntries.slice().sort(
 		(a, b) => b[1].numbersSuggested - a[1].numbersSuggested
 	)
+
+	const maxLeaders = 10
 
 	return (
 		<div className={classes.leaderboard}>
@@ -38,7 +46,7 @@ export const LeaderBoard: FC = () => {
 			)}
 			<h2 className={classes.title}>Таблица лидеров по точности</h2>
 			<ul className={classes.list}>
-				{accuracyLeaders.map((user, index) => (
+				{accuracyLeaders.slice(0, maxLeaders).map((user, index) => (
 					<li
 						key={user[0]}
 						className={
@@ -56,7 +64,7 @@ export const LeaderBoard: FC = () => {
 			</ul>
 			<h2 className={classes.title}>Таблица лидеров по количеству побед</h2>
 			<ul className={classes.list}>
-				{winsLeaders.map((user, index) => (
+				{winsLeaders.slice(0, maxLeaders).map((user, index) => (
 					<li
 						key={user[0]}
 						className={
@@ -73,7 +81,7 @@ export const LeaderBoard: FC = () => {
 
 			<h2 className={classes.title}>Таблица лидеров по участию в играх</h2>
 			<ul className={classes.list}>
-				{gamesPlayedLeaders.map((user, index) => (
+				{gamesPlayedLeaders.slice(0, maxLeaders).map((user, index) => (
 					<li
 						key={user[0]}
 						className={
@@ -92,7 +100,7 @@ export const LeaderBoard: FC = () => {
 				Таблица лидеров по количеству предложений
 			</h2>
 			<ul className={classes.list}>
-				{numbersSuggestedLeaders.map((user, index) => (
+				{numbersSuggestedLeaders.slice(0, maxLeaders).map((user, index) => (
 					<li
 						key={user[0]}
 						className={
