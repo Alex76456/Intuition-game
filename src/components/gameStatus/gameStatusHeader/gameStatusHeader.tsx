@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import clsx from 'clsx'
 import { PhaseInfo } from '@allTypes/gameStatusTypes'
+import { useTranslation } from '@hooks/useTranslation'
 import { useStyles } from './gameStatusHeaderStyles'
 
 type Props = {
@@ -9,6 +10,7 @@ type Props = {
 
 export const GameStatusHeader: FC<Props> = ({ phaseInfo }) => {
 	const classes = useStyles()
+	const { t } = useTranslation()
 
 	const statusBadgeClass = clsx({
 		[classes.statusBadgeRunning]: phaseInfo.variant === 'running',
@@ -19,12 +21,12 @@ export const GameStatusHeader: FC<Props> = ({ phaseInfo }) => {
 
 	const statusText =
 		phaseInfo.variant === 'running'
-			? 'Раунд идёт'
+			? t('Раунд идёт')
 			: phaseInfo.variant === 'finished'
-			? 'Раунд завершён'
+			? t('Раунд завершён')
 			: phaseInfo.variant === 'noPlayers'
-			? 'Нет игроков'
-			: 'Ожидание'
+			? t('Нет игроков')
+			: t('Ожидание')
 
 	return (
 		<div className={classes.headerRow}>

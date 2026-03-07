@@ -7,6 +7,7 @@ import type { GenerateId } from 'jss'
 
 import { store } from '@redux/store'
 import { ThemeContextProvider } from '@contexts/ThemeContext'
+import { LocaleContextProvider } from '@contexts/LocaleContext'
 import { Header } from '@components/header/Header'
 import { useGlobalStyles } from '@styles/globalStyles'
 
@@ -53,9 +54,11 @@ export default function MyApp(appProps: AppProps) {
 	return (
 		<Provider store={store}>
 			<ThemeContextProvider>
-				<JssProvider generateId={generateId}>
-					<AppInner {...appProps} />
-				</JssProvider>
+				<LocaleContextProvider>
+					<JssProvider generateId={generateId}>
+						<AppInner {...appProps} />
+					</JssProvider>
+				</LocaleContextProvider>
 			</ThemeContextProvider>
 		</Provider>
 	)

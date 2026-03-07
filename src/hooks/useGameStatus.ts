@@ -4,6 +4,7 @@ import { BOT_NAMES, gameConfig } from '@constants/commonConstants'
 import { getAllMessages } from '@redux/selectors/commonSelectors'
 import { MessageType } from '@allTypes/commonTypes'
 import { BannerState, LastResult, PhaseInfo } from '@allTypes/gameStatusTypes'
+import { useTranslation } from '@hooks/useTranslation'
 
 const isServerMessage = (message: MessageType) =>
 	message.userName === gameConfig.SERVER_NAME
@@ -13,6 +14,7 @@ const isInfoMessage = (message: MessageType) =>
 
 export const useGameStatus = () => {
 	const allMessages = useSelector(getAllMessages)
+	const { t } = useTranslation()
 
 	const [timeLeft, setTimeLeft] = useState<number | null>(null)
 	const [banner, setBanner] = useState<BannerState>(null)
@@ -44,22 +46,22 @@ export const useGameStatus = () => {
 		if (text === gameConfig.GREETING_MESSAGE) {
 			nextBanner = {
 				variant: 'greeting',
-				text: 'Добро пожаловать! Число уже загадано.',
+				text: t('Добро пожаловать! Число уже загадано.'),
 			}
 		} else if (text === gameConfig.WINNING_NUMBER_CREATED_MESSAGE) {
 			nextBanner = {
 				variant: 'roundStart',
-				text: 'Новое число загадано — раунд начался!',
+				text: t('Новое число загадано — раунд начался!'),
 			}
 		} else if (text === gameConfig.NO_PLAYERS_MESSAGE) {
 			nextBanner = {
 				variant: 'noPlayers',
-				text: 'В прошлом раунде не было попыток.',
+				text: t('В прошлом раунде не было попыток.'),
 			}
 		} else if (text.includes('Загаданное число:')) {
 			nextBanner = {
 				variant: 'roundResult',
-				text: 'Результаты раунда объявлены.',
+				text: t('Результаты раунда объявлены.'),
 			}
 		}
 
@@ -83,7 +85,7 @@ export const useGameStatus = () => {
 				bannerTimeoutRef.current = null
 			}
 		}
-	}, [lastServerMessage])
+	}, [lastServerMessage, t])
 
 	useEffect(() => {
 		if (!lastInfoMessage || typeof lastInfoMessage.message !== 'string') {
@@ -201,9 +203,10 @@ export const useGameStatus = () => {
 	const phaseInfo: PhaseInfo = useMemo(() => {
 		if (!lastServerMessage) {
 			return {
-				title: 'Ожидаем начало раунда',
-				description:
-					'Как только сервер запустит игру, вы увидите уведомление и таймер раунда.',
+				title: t('Ожидаем начало раунда'),
+				description: t(
+					'Как только сервер запустит игру, вы увидите уведомление и таймер раунда.'
+				),
 				variant: 'idle',
 			}
 		}
@@ -212,47 +215,52 @@ export const useGameStatus = () => {
 
 		if (text === gameConfig.GREETING_MESSAGE) {
 			return {
-				title: 'Игра уже идёт',
-				description:
-					'Сервер загадал число. Введите своё число внизу и попробуйте попасть как можно точнее.',
+				title: t('Игра уже идёт'),
+				description: t(
+					'Сервер загадал число. Введите своё число внизу и попробуйте попасть как можно точнее.'
+				),
 				variant: 'running',
 			}
 		}
 
 		if (text === gameConfig.WINNING_NUMBER_CREATED_MESSAGE) {
 			return {
-				title: 'Новое число загадано',
-				description:
-					'Начался новый раунд. Введите своё число — у вас ограниченное время до объявления победителя.',
+				title: t('Новое число загадано'),
+				description: t(
+					'Начался новый раунд. Введите своё число — у вас ограниченное время до объявления победителя.'
+				),
 				variant: 'running',
 			}
 		}
 
 		if (text === gameConfig.NO_PLAYERS_MESSAGE) {
 			return {
-				title: 'В прошлом раунде не было попыток',
-				description:
-					'Никто не сделал ни одной попытки. В следующем раунде попробуйте ввести число первым.',
+				title: t('В прошлом раунде не было попыток'),
+				description: t(
+					'Никто не сделал ни одной попытки. В следующем раунде попробуйте ввести число первым.'
+				),
 				variant: 'noPlayers',
 			}
 		}
 
 		if (text.includes('Загаданное число:')) {
 			return {
-				title: 'Раунд завершён',
-				description:
-					'Сервер объявил загаданное число и победителя. Скоро начнётся новый раунд.',
+				title: t('Раунд завершён'),
+				description: t(
+					'Сервер объявил загаданное число и победителя. Скоро начнётся новый раунд.'
+				),
 				variant: 'finished',
 			}
 		}
 
 		return {
-			title: 'Игра продолжается',
-			description:
-				'Сервер принимает новые числа. Чем точнее ваша интуиция, тем выше шанс победы.',
+			title: t('Игра продолжается'),
+			description: t(
+				'Сервер принимает новые числа. Чем точнее ваша интуиция, тем выше шанс победы.'
+			),
 			variant: 'running',
 		}
-	}, [lastServerMessage])
+	}, [lastServerMessage, t])
 
 	return {
 		banner,

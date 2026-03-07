@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
 import { LastResult } from '@allTypes/gameStatusTypes'
+import { useTranslation } from '@hooks/useTranslation'
 import { useStyles } from './gameStatusResultStyles'
 
 type Props = {
@@ -8,6 +9,7 @@ type Props = {
 
 export const GameStatusResult: FC<Props> = ({ lastResult }) => {
 	const classes = useStyles()
+	const { t } = useTranslation()
 
 	if (!lastResult) {
 		return null
@@ -15,19 +17,19 @@ export const GameStatusResult: FC<Props> = ({ lastResult }) => {
 
 	return (
 		<div className={classes.resultBlock}>
-			<div className={classes.resultTitle}>Последний результат раунда</div>
+			<div className={classes.resultTitle}>{t('Последний результат раунда')}</div>
 			<div className={classes.resultRow}>
 				<div>
 					<div className={classes.resultNumber}>
-						Загаданное число: {lastResult.winningNumber}
+						{t('Загаданное число:')} {lastResult.winningNumber}
 					</div>
 				</div>
 				<div>
 					<div className={classes.resultWinner}>
-						Победитель: {lastResult.winnerName}
+						{t('Победитель:')} {lastResult.winnerName}
 					</div>
 					<div className={classes.resultSub}>
-						Его число: {lastResult.winnerNumber}
+						{t('Его число:')} {lastResult.winnerNumber}
 					</div>
 				</div>
 			</div>

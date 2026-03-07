@@ -1,5 +1,6 @@
 import React, { FC, useMemo } from 'react'
 import clsx from 'clsx'
+import { useTranslation } from '@hooks/useTranslation'
 import { useStyles } from './gameStatusTimerAndPlayersStyles'
 
 type Props = {
@@ -14,6 +15,7 @@ export const GameStatusTimerAndPlayers: FC<Props> = ({
 	bots,
 }) => {
 	const classes = useStyles()
+	const { t } = useTranslation()
 
 	const { timerActive, timerValueClass } = useMemo(() => {
 		const active = timeLeft !== null && timeLeft >= 0
@@ -33,19 +35,19 @@ export const GameStatusTimerAndPlayers: FC<Props> = ({
 	return (
 		<div className={classes.bodyRow}>
 			<div className={classes.timerPill}>
-				<span className={classes.timerLabel}>До объявления победителя</span>
+				<span className={classes.timerLabel}>{t('До объявления победителя')}</span>
 				<span className={timerValueClass}>
 					{timerActive && timeLeft !== null ? `${timeLeft} сек` : '—'}
 				</span>
 			</div>
 
 			<div className={classes.playersRow}>
-				<span className={classes.playersTitle}>Участники текущего раунда</span>
+				<span className={classes.playersTitle}>{t('Участники текущего раунда')}</span>
 				<div className={classes.playersBadges}>
 					<span className={classes.playerBadgeHighlight}>
-						Игроков: {players.length}
+						{t('Игроков:')} {players.length}
 					</span>
-					<span className={classes.playerBadge}>Ботов: {bots.length}</span>
+					<span className={classes.playerBadge}>{t('Ботов:')} {bots.length}</span>
 					{players.map((player) => (
 						<span key={player} className={classes.playerBadge}>
 							{player}

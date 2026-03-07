@@ -2,6 +2,7 @@ import { getUserName } from '@redux/selectors/commonSelectors'
 import { setNickConfirmed, setUserName } from '@redux/slices/commonSlice'
 import React, { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useTranslation } from '@hooks/useTranslation'
 import { useStyles } from './nickInputStyles'
 
 type NickInputProps = {
@@ -17,13 +18,14 @@ type NickDisplayProps = {
 
 export const NickInput: FC<NickInputProps | NickDisplayProps> = (props) => {
 	const classes = useStyles()
+	const { t } = useTranslation()
 	const dispatch = useDispatch()
 	const userName = useSelector(getUserName)
 
 	if (props.mode === 'display') {
 		return (
 			<div className={classes.userName}>
-				<h2 className={classes.userNameSubtitle}>Ваш ник:</h2>
+				<h2 className={classes.userNameSubtitle}>{t('Ваш ник:')}</h2>
 				<div className={classes.displayRow}>
 					<span className={classes.nickValue}>{userName}</span>
 					<button
@@ -31,7 +33,7 @@ export const NickInput: FC<NickInputProps | NickDisplayProps> = (props) => {
 						className={classes.changeButton}
 						onClick={() => dispatch(setNickConfirmed(false))}
 					>
-						Изменить ник
+						{t('Изменить ник')}
 					</button>
 				</div>
 			</div>
@@ -43,14 +45,14 @@ export const NickInput: FC<NickInputProps | NickDisplayProps> = (props) => {
 		<div className={classes.userName}>
 			{!hideSubtitle && (
 				<h2 className={classes.userNameSubtitle}>
-					{'Ваш ник (можно изменить):'}
+					{t('Ваш ник (можно изменить):')}
 				</h2>
 			)}
 			<input
 				className={classes.input}
 				value={userName}
 				onChange={(e) => dispatch(setUserName(e.target.value))}
-				placeholder={hideSubtitle ? 'Придумайте никнейм' : undefined}
+				placeholder={hideSubtitle ? t('Придумайте никнейм') : undefined}
 			/>
 		</div>
 	)
