@@ -28,7 +28,7 @@ import { NickInput } from 'src/components/nickInput/nickInput'
 import { Chat } from 'src/components/chat/chat'
 import { GameStatus } from 'src/components/gameStatus/gameStatus'
 import { ConnectionStatus } from 'src/components/connectionStatus/ConnectionStatus'
-import { useStyles } from './indexStyles'
+import { useStyles } from '@styles/indexStyles'
 
 const Home: FC = () => {
 	const classes = useStyles()
