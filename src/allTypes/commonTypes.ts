@@ -1,6 +1,6 @@
 export type MessageType = {
 	userName: string
-	message: number
+	message: number | string
 }
 
 export type PlayerStatisticType = {

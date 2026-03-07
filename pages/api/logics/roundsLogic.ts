@@ -17,6 +17,13 @@ export const roundsLogic = (io: Server) =>
 				userName: gameConfig.SERVER_NAME,
 				message: gameConfig.WINNING_NUMBER_CREATED_MESSAGE,
 			})
+			// всем игрокам отправляем оставшееся время до конца только что начавшегося раунда
+			io.emit(socketEvents.RECEIVE_MESSAGE, {
+				userName: gameConfig.INFO_MESSAGE_NAME,
+				message: gameConfig.GET_REMAINING_SECONDS({
+					nextResultDate: serverState.nextResultDate,
+				}),
+			})
 		}, 1 * 1000)
 
 		if (!serverState.messages.length) {
