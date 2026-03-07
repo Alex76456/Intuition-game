@@ -2,6 +2,7 @@ import { gameConfig, socketEvents } from 'src/constants/commonConstants'
 import { serverState } from '../socket'
 import {
 	getRandomIntInRange,
+	getRemainingSecondsNumber,
 	getUpdatedStatistic,
 	getWinningMessage,
 	setStatisticToDB,
@@ -24,6 +25,7 @@ export const roundsLogic = (io: Server) =>
 					nextResultDate: serverState.nextResultDate,
 				}),
 			})
+			io.emit(socketEvents.TIME_LEFT, getRemainingSecondsNumber(serverState.nextResultDate))
 		}, 1 * 1000)
 
 		if (!serverState.messages.length) {
@@ -43,10 +45,18 @@ export const roundsLogic = (io: Server) =>
 			messages: serverState.messages,
 		})
 
+		const roundResult = {
+			winningNumber,
+			winnerName: winningMessage.userName,
+			winnerNumber: Number(winningMessage.message),
+		}
+		serverState.lastRoundResult = roundResult
+
 		io.emit(socketEvents.RECEIVE_MESSAGE, {
 			userName: gameConfig.SERVER_NAME,
 			message: gameConfig.GET_RESULT_MESSAGE({ winningNumber, winningMessage }),
 		})
+		io.emit(socketEvents.ROUND_RESULT, roundResult)
 
 		serverState.statistic = getUpdatedStatistic({
 			winningNumber,

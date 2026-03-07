@@ -84,6 +84,32 @@ export const useStyles = createUseStyles(
 			fontSize: 12,
 			color: theme.colors.surfaceAccentGreen,
 		},
+		tabs: {
+			display: 'flex',
+			gap: 4,
+			marginTop: 12,
+			marginBottom: 8,
+			flexWrap: 'wrap' as const,
+		},
+		tab: {
+			padding: '8px 14px',
+			fontSize: 13,
+			fontWeight: 500,
+			border: `1px solid ${theme.colors.borderSoft}`,
+			borderRadius: theme.radius.lg,
+			background: theme.colors.backgroundBody,
+			color: theme.colors.textSecondary,
+			cursor: 'pointer',
+			'&:hover': {
+				background: theme.colors.mainBackgroundHighlight,
+				color: theme.colors.textPrimary,
+			},
+		},
+		tabActive: {
+			background: theme.colors.surfaceAccentPurple,
+			borderColor: theme.colors.surfaceAccentPurple,
+			color: theme.colors.buttonPrimaryText,
+		},
 	}),
 	{ name: 'LeaderBoard' }
 )

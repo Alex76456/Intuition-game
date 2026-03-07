@@ -11,6 +11,9 @@ export const socketEvents = {
 	RECEIVE_MESSAGE: 'receive-message',
 	SEND_MESSAGE: 'send-message',
 	STATISTIC_MESSAGE: 'statistic-message',
+	TIME_LEFT: 'time-left',
+	ROUND_RESULT: 'round-result',
+	SYNC_STATE: 'sync-state',
 }
 
 export const SOCKET_URL = '/api/socket'

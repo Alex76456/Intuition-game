@@ -83,6 +83,11 @@ export const getRemainingSeconds = ({
 	return `* ${safeSeconds} сек до объявления победителя *`
 }
 
+export const getRemainingSecondsNumber = (nextResultDate: number): number => {
+	const diffSeconds = Math.floor((nextResultDate - Date.now()) / 1000)
+	return diffSeconds < 0 ? 0 : diffSeconds
+}
+
 export const getRandomBotMessage = () => {
 	const newBotMessage = {
 		userName:
@@ -143,6 +148,11 @@ export const getUpdatedStatistic = ({
 			winningNumber,
 			number: Number(cur.message),
 		})
+		const difference = getNumbersDifference(
+			winningNumber,
+			Number(cur.message)
+		)
+		const isWinner = cur.userName === winningMessage.userName
 
 		if (acc.hasOwnProperty(cur.userName)) {
 			const userRecord = acc[cur.userName]
@@ -151,17 +161,26 @@ export const getUpdatedStatistic = ({
 				newAccuracyRecord,
 			]
 			const newNumbersSuggested = userRecord.numbersSuggested + 1
+			const winStreak = isWinner
+				? (userRecord.winStreak ?? 0) + 1
+				: 0
+			const bestDifference =
+				userRecord.bestDifference !== undefined
+					? Math.min(userRecord.bestDifference, difference)
+					: difference
 
 			return {
 				...acc,
 				[cur.userName]: {
+					...userRecord,
 					averageAccuracy: Math.round(
 						getAverageNumber(newAccuracyRecords) / newNumbersSuggested
 					),
-					wins: userRecord.wins,
+					wins: userRecord.wins + (isWinner ? 1 : 0),
 					numbersSuggested: userRecord.numbersSuggested + 1,
-					gamesPlayed: userRecord.gamesPlayed,
 					accuracyRecords: newAccuracyRecords,
+					winStreak,
+					bestDifference,
 				},
 			}
 		} else {
@@ -169,10 +188,12 @@ export const getUpdatedStatistic = ({
 				...acc,
 				[cur.userName]: {
 					averageAccuracy: newAccuracyRecord,
-					wins: 0,
+					wins: isWinner ? 1 : 0,
 					numbersSuggested: 1,
 					gamesPlayed: 0,
 					accuracyRecords: [newAccuracyRecord],
+					winStreak: isWinner ? 1 : 0,
+					bestDifference: difference,
 				},
 			}
 		}
@@ -180,9 +201,10 @@ export const getUpdatedStatistic = ({
 
 	new Set(messages.map((mess) => mess.userName)).forEach((name) => {
 		statistic[name].gamesPlayed++
+		if (name !== winningMessage.userName && statistic[name].winStreak !== undefined) {
+			statistic[name].winStreak = 0
+		}
 	})
-
-	statistic[winningMessage.userName].wins++
 
 	return statistic
 }

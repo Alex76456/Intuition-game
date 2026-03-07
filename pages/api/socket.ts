@@ -14,14 +14,14 @@ export const serverState: ServerStateType = {
 
 import { getStartStatisticFromDB } from '@utils/commonUtils'
 
-export default function SocketHandler(req, res) {
+export default async function SocketHandler(req, res) {
 	if (res.socket.server.io) {
 		console.log('Already set up')
 		res.end()
 		return
 	}
 
-	getStartStatisticFromDB(serverState)
+	await getStartStatisticFromDB(serverState)
 
 	const io = new Server(res.socket.server)
 	res.socket.server.io = io

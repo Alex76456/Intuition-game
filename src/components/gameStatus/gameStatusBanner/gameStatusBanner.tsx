@@ -31,7 +31,7 @@ export const GameStatusBanner: FC<Props> = ({ banner }) => {
 			: '★'
 
 	return (
-		<div className={bannerClass}>
+		<div className={bannerClass} role="status" aria-live="polite" aria-atomic>
 			<span className={classes.bannerIcon}>{icon}</span>
 			<span className={classes.bannerText}>{banner.text}</span>
 		</div>

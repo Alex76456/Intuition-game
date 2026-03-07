@@ -9,6 +9,8 @@ export type PlayerStatisticType = {
 	numbersSuggested: number
 	gamesPlayed: number
 	accuracyRecords: number[]
+	winStreak?: number
+	bestDifference?: number
 }
 
 export type CommonStatisticType = {
@@ -19,4 +21,5 @@ export type ServerStateType = {
 	messages: MessageType[]
 	nextResultDate: number
 	statistic: CommonStatisticType
+	lastRoundResult?: { winningNumber: number; winnerName: string; winnerNumber: number } | null
 }
