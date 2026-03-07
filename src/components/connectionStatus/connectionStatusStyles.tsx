@@ -16,7 +16,6 @@ export const useStyles = createUseStyles(
 		},
 		card: {
 			width: '100%',
-			maxWidth: 360,
 			padding: 28,
 			borderRadius: 24,
 			background: `linear-gradient(145deg, ${theme.colors.surfacePrimary}, ${theme.colors.backgroundBody})`,
