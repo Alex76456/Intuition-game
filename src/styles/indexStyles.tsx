@@ -5,20 +5,23 @@ export const useStyles = createUseStyles(
 	(theme: AppTheme) => ({
 		main: {
 			position: 'relative',
-			height: '100vh',
+			flex: 1,
+			minHeight: 0,
 			maxWidth: '100vw',
+			overflowY: 'auto',
 			display: 'flex',
 			justifyContent: 'space-between',
 			alignItems: 'flex-start',
 			background: `radial-gradient(circle at top left, ${theme.colors.mainBackgroundHighlight} 0, ${theme.colors.backgroundBody} 60%)`,
 			color: theme.colors.textPrimary,
-			padding: '56px 24px 20px',
+			// Отступ сверху >= высоте фиксированного хедера (padding 12*2 + кнопка 40 ≈ 64px), + safe-area
+			padding: 'calc(68px + env(safe-area-inset-top, 0px)) 24px 20px',
 			gap: 20,
 			'@media (max-width: 1200px)': {
 				flexDirection: 'column',
 				alignItems: 'stretch',
 				gap: 16,
-				padding: '52px 16px 24px',
+				padding: 'calc(68px + env(safe-area-inset-top, 0px)) 16px 24px',
 			},
 		},
 		mainWrapper: {
@@ -28,8 +31,24 @@ export const useStyles = createUseStyles(
 			borderRadius: 24,
 			boxShadow: theme.shadow.mainWrapper,
 			border: `1px solid ${theme.colors.borderSoft}`,
-			maxHeight: 'calc(100vh - 40px)',
-			overflow: 'hidden',
+			flex: 1,
+			minHeight: 0,
+			maxHeight: 'calc(100vh - 88px)',
+			overflowY: 'auto',
+			overflowX: 'hidden',
+			scrollbarWidth: 'thin',
+			scrollbarColor: `${theme.colors.scrollbarThumb} transparent`,
+			maxWidth: '900px',
+			'&::-webkit-scrollbar': {
+				width: 6,
+			},
+			'&::-webkit-scrollbar-track': {
+				background: 'transparent',
+			},
+			'&::-webkit-scrollbar-thumb': {
+				backgroundColor: theme.colors.scrollbarThumb,
+				borderRadius: theme.radius.full,
+			},
 			'@media (max-width: 1200px)': {
 				order: 1,
 				width: '100%',
@@ -42,7 +61,6 @@ export const useStyles = createUseStyles(
 			rowGap: 24,
 			minWidth: 520,
 			minHeight: 520,
-			height: '100%',
 			overflow: 'hidden',
 			'@media (max-width: 768px)': {
 				minWidth: 0,
