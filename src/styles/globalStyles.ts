@@ -10,18 +10,23 @@ export const useGlobalStyles = createUseStyles(
 				boxSizing: 'border-box',
 			},
 			html: {
-				height: '100%',
+				minHeight: '100%',
 			},
 			body: {
-				height: '100%',
+				minHeight: '100%',
 				fontFamily:
 					"system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
 				backgroundColor: theme.colors.backgroundBody,
 				color: theme.colors.textPrimary,
-				overflow: 'hidden',
+				overflowX: 'hidden',
 			},
 			'#__next': {
-				height: '100%',
+				minHeight: '100%',
+			},
+			'.app-root': {
+				minHeight: '100vh',
+				display: 'flex',
+				flexDirection: 'column',
 			},
 		},
 	}),

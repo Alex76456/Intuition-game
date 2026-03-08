@@ -9,6 +9,7 @@ export const useHeaderStyles = createUseStyles(
 			left: 0,
 			right: 0,
 			zIndex: 100,
+			paddingTop: 'calc(12px + env(safe-area-inset-top, 0px))',
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'space-between',

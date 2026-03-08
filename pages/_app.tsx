@@ -23,7 +23,7 @@ const AppInner: React.FC<AppProps> = ({ Component, pageProps, router }) => {
 	useGlobalStyles()
 
 	return (
-		<div>
+		<div className="app-root">
 			<Head>
 				<title>Great Intuition</title>
 				<meta
