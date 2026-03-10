@@ -1,6 +1,7 @@
 export type MessageType = {
 	userName: string
 	message: number | string
+	bet?: number
 }
 
 export type PlayerStatisticType = {
@@ -11,6 +12,8 @@ export type PlayerStatisticType = {
 	accuracyRecords: number[]
 	winStreak?: number
 	bestDifference?: number
+	coins?: number
+	lastRefillDate?: number
 }
 
 export type CommonStatisticType = {

@@ -6,6 +6,13 @@ export const getNickConfirmed = (state: IState) => state.common.nickConfirmed
 
 export const getStatistic = (state: IState) => state.common.statistic
 
+export const getUserCoins = (state: IState) => {
+	const userName = state.common.userName
+	if (!userName) return 0
+	const user = state.common.statistic[userName]
+	return user?.coins ?? 0
+}
+
 export const getAllMessages = (state: IState) => state.common.allMessages
 
 export const getLastRoundResult = (state: IState) => state.common.lastRoundResult

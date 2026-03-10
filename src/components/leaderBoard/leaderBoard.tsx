@@ -5,13 +5,13 @@ import { useTranslation } from '@hooks/useTranslation'
 import { useStyles } from './leaderBoardStyles'
 
 const LEADERBOARD_TAB_KEY = 'gi-leaderboard-tab'
-type TabId = 'accuracy' | 'wins' | 'games' | 'suggestions'
+type TabId = 'accuracy' | 'wins' | 'games' | 'suggestions' | 'coins'
 
 function getStoredTab(): TabId {
 	if (typeof window === 'undefined') return 'accuracy'
 	try {
 		const s = window.localStorage.getItem(LEADERBOARD_TAB_KEY)
-		if (s === 'accuracy' || s === 'wins' || s === 'games' || s === 'suggestions') return s
+		if (s === 'accuracy' || s === 'wins' || s === 'games' || s === 'suggestions' || s === 'coins') return s
 	} catch {
 		// ignore
 	}
@@ -60,6 +60,9 @@ export const LeaderBoard: FC = () => {
 	const numbersSuggestedLeaders = statisticEntries.slice().sort(
 		(a, b) => b[1].numbersSuggested - a[1].numbersSuggested
 	)
+	const coinsLeaders = statisticEntries.slice().sort(
+		(a, b) => (b[1].coins ?? 0) - (a[1].coins ?? 0)
+	)
 
 	const maxLeaders = 10
 
@@ -75,6 +78,7 @@ export const LeaderBoard: FC = () => {
 		{ id: 'wins', shortLabel: t('Побед'), label: t('Таблица лидеров по количеству побед'), leaders: winsLeaders.slice(0, maxLeaders), line: (u, i) => `${i + 1}. ${u[0]} (${t('Побед:')} ${u[1].wins})` },
 		{ id: 'games', shortLabel: t('Игр'), label: t('Таблица лидеров по участию в играх'), leaders: gamesPlayedLeaders.slice(0, maxLeaders), line: (u, i) => `${i + 1}. ${u[0]} (${t('Сыграно:')} ${u[1].gamesPlayed})` },
 		{ id: 'suggestions', shortLabel: t('Попыток'), label: t('Таблица лидеров по количеству предложений'), leaders: numbersSuggestedLeaders.slice(0, maxLeaders), line: (u, i) => `${i + 1}. ${u[0]} (${t('Предложено:')} ${u[1].numbersSuggested})` },
+		{ id: 'coins', shortLabel: t('Монеты'), label: t('Таблица лидеров по монетам'), leaders: coinsLeaders.slice(0, maxLeaders), line: (u, i) => `${i + 1}. ${u[0]} (${t('Монеты:')} ${u[1].coins ?? 0})` },
 	]
 	const currentTab = tabs.find((tab) => tab.id === activeTab) ?? tabs[0]
 
@@ -88,6 +92,7 @@ export const LeaderBoard: FC = () => {
 						<li>{`${t('Средняя точность:')} ${currentUserStats.averageAccuracy}%`}</li>
 						<li>{`${t('Сыграно игр:')} ${currentUserStats.gamesPlayed}`}</li>
 						<li>{`${t('Сделано попыток:')} ${currentUserStats.numbersSuggested}`}</li>
+						<li>{`${t('Монеты:')} ${currentUserStats.coins ?? 0}`}</li>
 						{currentUserStats.winStreak !== undefined && currentUserStats.winStreak > 0 && (
 							<li>{`${t('Серия побед:')} ${currentUserStats.winStreak}`}</li>
 						)}

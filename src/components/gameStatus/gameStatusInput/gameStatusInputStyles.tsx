@@ -13,7 +13,8 @@ export const useStyles = createUseStyles(
 		},
 		formRow: {
 			display: 'flex',
-			gap: 8,
+			gap: 12,
+			alignItems: 'flex-end',
 		},
 		inputHint: {
 			fontSize: 12,
@@ -62,6 +63,46 @@ export const useStyles = createUseStyles(
 				cursor: 'not-allowed',
 			},
 		},
+		betInput: {
+			height: 45,
+			width: 80,
+			textAlign: 'center',
+			fontSize: 14,
+			padding: '8px 10px',
+			borderRadius: theme.radius.full,
+			border: `1px solid ${theme.colors.inputBorder}`,
+			backgroundColor: theme.colors.inputBackground,
+			color: theme.colors.textPrimary,
+			outline: 'none',
+			MozAppearance: 'textfield',
+			'&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
+				WebkitAppearance: 'none',
+				margin: 0,
+			},
+			'&:disabled': {
+				opacity: 0.5,
+				cursor: 'not-allowed',
+			},
+		},
+		fieldGroup: {
+			display: 'flex',
+			flexDirection: 'column',
+			gap: 4,
+			flex: 1,
+			minWidth: 0,
+		},
+		fieldLabel: {
+			fontSize: 11,
+			fontWeight: 600,
+			color: theme.colors.textSecondary,
+			textTransform: 'uppercase',
+			letterSpacing: '0.04em',
+			paddingLeft: 12,
+		},
+		submitWrap: {
+			display: 'flex',
+			alignItems: 'flex-end',
+		},
 		submitButton: {
 			minWidth: 80,
 			padding: '0 16px',
@@ -95,5 +136,5 @@ export const useStyles = createUseStyles(
 			},
 		},
 	}),
-	{ name: 'GameStatusInput' }
+	{ name: 'GameStatusInput' },
 )

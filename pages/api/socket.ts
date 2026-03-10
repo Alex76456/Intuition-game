@@ -12,7 +12,7 @@ export const serverState: ServerStateType = {
 	statistic: {},
 }
 
-import { getStartStatisticFromDB } from '@utils/commonUtils'
+import { applyDailyCoinsRefill, getStartStatisticFromDB } from '@utils/commonUtils'
 
 export default async function SocketHandler(req, res) {
 	if (res.socket.server.io) {
@@ -22,6 +22,7 @@ export default async function SocketHandler(req, res) {
 	}
 
 	await getStartStatisticFromDB(serverState)
+	applyDailyCoinsRefill(serverState.statistic)
 
 	const io = new Server(res.socket.server)
 	res.socket.server.io = io

@@ -158,6 +158,7 @@ export const useStyles = createUseStyles(
 			},
 		},
 		submitButton: {
+			height: 40,
 			minWidth: 80,
 			padding: '0 16px',
 			borderRadius: theme.radius.full,
@@ -190,5 +191,5 @@ export const useStyles = createUseStyles(
 			},
 		},
 	}),
-	{ name: 'Chat' }
+	{ name: 'Chat' },
 )

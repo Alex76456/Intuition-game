@@ -6,12 +6,15 @@ import {
 	getUpdatedStatistic,
 	getWinningMessage,
 	setStatisticToDB,
+	applyDailyCoinsRefill,
 } from 'src/utils/commonUtils'
 import { Server } from 'socket.io'
 
 export const roundsLogic = (io: Server) =>
 	// логика цикла игры
 	setInterval(() => {
+		applyDailyCoinsRefill(serverState.statistic)
+
 		// сообщение "число загадо!"
 		setTimeout(() => {
 			io.emit(socketEvents.RECEIVE_MESSAGE, {
@@ -45,10 +48,12 @@ export const roundsLogic = (io: Server) =>
 			messages: serverState.messages,
 		})
 
+		const winnerBet = typeof winningMessage.bet === 'number' && winningMessage.bet > 0 ? winningMessage.bet : 0
 		const roundResult = {
 			winningNumber,
 			winnerName: winningMessage.userName,
 			winnerNumber: Number(winningMessage.message),
+			winAmount: winnerBet * 2,
 		}
 		serverState.lastRoundResult = roundResult
 

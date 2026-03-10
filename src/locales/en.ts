@@ -17,6 +17,9 @@ export const en: Record<string, string> = {
 	'Таблица лидеров по количеству побед': 'Wins leaderboard',
 	'Таблица лидеров по участию в играх': 'Games played leaderboard',
 	'Таблица лидеров по количеству предложений': 'Suggestions leaderboard',
+	'Таблица лидеров по монетам': 'Coins leaderboard',
+	Монеты: 'Coins',
+	'Сумма выигрыша:': 'Win amount:',
 	'Ср. точность:': 'Avg. accuracy:',
 	'Предложено:': 'Suggested:',
 	'Сыграно:': 'Played:',
@@ -79,4 +82,27 @@ export const en: Record<string, string> = {
 	Побед: 'Wins',
 	Игр: 'Games',
 	Попыток: 'Attempts',
+	монеты: 'coins',
+	ставка: 'bet',
+	'Ваши монеты': 'Your coins',
+	'Монеты:': 'Coins:',
+	'Ваше число': 'Your number',
+	'Ставка (монеты)': 'Bet (coins)',
+	'Ваша ставка монет': 'Your coin bet',
+	'Число от 0 до 100, ставка в монетах обязательна':
+		'Number from 0 to 100, coin bet is required',
+	'У вас нет монет — дождитесь ежедневного пополнения':
+		'You have no coins — wait for the daily refill',
+	'Цель игры — угадать число от 0 до 100, которое загадывает сервер. Чем ближе ваше число к загаданному, тем лучше.':
+		'The goal is to guess the number from 0 to 100 chosen by the server. The closer your number, the better.',
+	'В каждом раунде вы вводите одно число и ставку в монетах. Без монет участвовать в раунде нельзя.':
+		'Each round you enter one number and a coin bet. You cannot play without coins.',
+	'Монеты: при выигрыше ставка удваивается (возврат ставки плюс такой же выигрыш). При проигрыше ставка списывается полностью.':
+		'Coins: on win your bet is doubled (you get your bet back plus the same amount). On loss the bet is taken in full.',
+	'Каждый день баланс монет пополняется на 100. Новым игрокам доступны монеты для первых ставок.':
+		'Every day your coin balance is refilled by 100. New players get coins for their first bets.',
+	'Раунд длится 60 секунд. За это время все желающие отправляют число и ставку. По истечении времени объявляется загаданное число и победитель — тот, чьё число оказалось ближе всего к загаданному.':
+		'A round lasts 60 seconds. During that time everyone sends their number and bet. Then the target number and winner are announced — whoever was closest wins.',
+	'Соревнуйтесь с другими игроками и ботами. Используйте интуицию и следите за статистикой в таблице лидеров.':
+		'Compete with other players and bots. Use your intuition and check the leaderboard stats.',
 }

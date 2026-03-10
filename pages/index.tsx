@@ -59,7 +59,7 @@ const Home: FC = () => {
 		socket.current.on(socketEvents.TIME_LEFT, (seconds: number) => {
 			dispatch(setServerTimeLeft(seconds))
 		})
-		socket.current.on(socketEvents.ROUND_RESULT, (payload: { winningNumber: number; winnerName: string; winnerNumber: number }) => {
+		socket.current.on(socketEvents.ROUND_RESULT, (payload: { winningNumber: number; winnerName: string; winnerNumber: number; winAmount?: number }) => {
 			dispatch(setLastRoundResult(payload))
 		})
 		socket.current.on(

@@ -75,7 +75,9 @@ export const Chat: FC = () => {
 	return (
 		<div className={classes.window}>
 			<ul id={'messagesList'} className={classes.windowChat}>
-				{allMessages.map(({ userName: authorName, message }, index) => {
+				{allMessages.map((msg, index) => {
+					const { userName: authorName, message } = msg
+					const bet = typeof msg.bet === 'number' && msg.bet > 0 ? msg.bet : undefined
 					const isOwnMessage = authorName === userName
 					const isBotMessage = authorName.toLowerCase().includes('bot')
 					const isServerMessage =
@@ -89,10 +91,15 @@ export const Chat: FC = () => {
 						? classes.messageServerState
 						: classes.message
 
+					const text =
+						bet !== undefined
+							? `${message} (${t('ставка')}: ${bet} ${t('монеты')})`
+							: String(message)
+
 					return (
 						<li key={index} className={stateClass}>
 							<span className={classes.messageUser}>{authorName}:</span>{' '}
-							<span className={classes.messageText}>{message}</span>
+							<span className={classes.messageText}>{text}</span>
 						</li>
 					)
 				})}

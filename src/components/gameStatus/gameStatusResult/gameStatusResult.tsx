@@ -31,6 +31,11 @@ export const GameStatusResult: FC<Props> = ({ lastResult }) => {
 					<div className={classes.resultSub}>
 						{t('Его число:')} {lastResult.winnerNumber}
 					</div>
+					{lastResult.winAmount !== undefined && lastResult.winAmount > 0 && (
+						<div className={classes.resultSub}>
+							{t('Сумма выигрыша:')} {lastResult.winAmount} {t('монеты')}
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

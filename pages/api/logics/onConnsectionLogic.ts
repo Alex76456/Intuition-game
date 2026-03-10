@@ -28,6 +28,10 @@ export const onConnectionLogic = (io: Server) =>
 		})
 
 		socket.on(socketEvents.SEND_MESSAGE, (message) => {
+			if (!message || typeof message.userName !== 'string') {
+				return
+			}
+
 			serverState.messages = [...serverState.messages, message]
 			io.emit(socketEvents.RECEIVE_MESSAGE, message)
 
