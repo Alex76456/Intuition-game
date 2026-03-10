@@ -69,7 +69,13 @@ export const getResultMessage = ({
 	winningMessage: MessageType
 	winningNumber: number
 }) => {
-	return `Загаданное число: ${winningNumber} \n Победил игрок ${winningMessage.userName} с числом: ${winningMessage.message} ヽ༼ ʘ̚ل͜ʘ̚༽ﾉ`
+	const winBet = typeof winningMessage.bet === 'number' && winningMessage.bet > 0 ? winningMessage.bet : 0
+	const winAmount = winBet * 2
+	const winLine =
+		winAmount > 0
+			? `\n Сумма выигрыша: ${winAmount} монет`
+			: ''
+	return `Загаданное число: ${winningNumber} \n Победил игрок ${winningMessage.userName} с числом: ${winningMessage.message} ヽ༼ ʘ̚ل͜ʘ̚༽ﾉ${winLine}`
 }
 
 export const getRemainingSeconds = ({
@@ -89,6 +95,11 @@ export const getRemainingSecondsNumber = (nextResultDate: number): number => {
 }
 
 export const getRandomBotMessage = () => {
+	const number = getRandomIntInRange({
+		min: gameConfig.MIN_RANDOM_NUMBER,
+		max: gameConfig.MAX_RANDOM_NUMBER,
+	})
+
 	const newBotMessage = {
 		userName:
 			BOT_NAMES[
@@ -97,10 +108,8 @@ export const getRandomBotMessage = () => {
 					max: BOT_NAMES.length - 1,
 				})
 			],
-		message: getRandomIntInRange({
-			min: gameConfig.MIN_RANDOM_NUMBER,
-			max: gameConfig.MAX_RANDOM_NUMBER,
-		}),
+		message: number,
+		bet: number,
 	}
 
 	return newBotMessage
@@ -153,6 +162,7 @@ export const getUpdatedStatistic = ({
 			Number(cur.message)
 		)
 		const isWinner = cur.userName === winningMessage.userName
+		const bet = typeof cur.bet === 'number' && cur.bet > 0 ? cur.bet : 0
 
 		if (acc.hasOwnProperty(cur.userName)) {
 			const userRecord = acc[cur.userName]
@@ -164,6 +174,8 @@ export const getUpdatedStatistic = ({
 			const winStreak = isWinner
 				? (userRecord.winStreak ?? 0) + 1
 				: 0
+			const currentCoins = userRecord.coins ?? 0
+			const newCoins = currentCoins - bet + (isWinner ? bet * 2 : 0)
 			const bestDifference =
 				userRecord.bestDifference !== undefined
 					? Math.min(userRecord.bestDifference, difference)
@@ -180,10 +192,14 @@ export const getUpdatedStatistic = ({
 					numbersSuggested: userRecord.numbersSuggested + 1,
 					accuracyRecords: newAccuracyRecords,
 					winStreak,
+					coins: newCoins,
 					bestDifference,
 				},
 			}
 		} else {
+			const baseCoins = 100
+			const newCoins = baseCoins - bet + (isWinner ? bet * 2 : 0)
+
 			return {
 				...acc,
 				[cur.userName]: {
@@ -193,6 +209,7 @@ export const getUpdatedStatistic = ({
 					gamesPlayed: 0,
 					accuracyRecords: [newAccuracyRecord],
 					winStreak: isWinner ? 1 : 0,
+					coins: newCoins,
 					bestDifference: difference,
 				},
 			}
@@ -203,6 +220,32 @@ export const getUpdatedStatistic = ({
 		statistic[name].gamesPlayed++
 		if (name !== winningMessage.userName && statistic[name].winStreak !== undefined) {
 			statistic[name].winStreak = 0
+		}
+	})
+
+	return statistic
+}
+
+const getStartOfToday = () => {
+	const now = new Date()
+	now.setHours(0, 0, 0, 0)
+	return now.getTime()
+}
+
+export const applyDailyCoinsRefill = (statistic: CommonStatisticType) => {
+	const startOfToday = getStartOfToday()
+
+	Object.keys(statistic).forEach((name) => {
+		const userRecord = statistic[name]
+		const lastRefillDate = userRecord.lastRefillDate ?? 0
+
+		if (lastRefillDate < startOfToday) {
+			const currentCoins = userRecord.coins ?? 0
+			statistic[name] = {
+				...userRecord,
+				coins: currentCoins + 100,
+				lastRefillDate: startOfToday,
+			}
 		}
 	})
 

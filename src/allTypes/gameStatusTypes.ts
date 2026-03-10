@@ -17,5 +17,6 @@ export type LastResult = {
 	winningNumber: number
 	winnerName: string
 	winnerNumber: number
+	winAmount?: number
 }
 

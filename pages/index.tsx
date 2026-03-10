@@ -49,17 +49,22 @@ const Home: FC = () => {
 		socket.current.on(socketEvents.RECEIVE_MESSAGE, (data: MessageType) => {
 			dispatch(addMessage(data))
 			const text = String(data.message)
-			if (
-				data.userName === gameConfig.SERVER_NAME &&
-				(text === gameConfig.GREETING_MESSAGE || text === gameConfig.WINNING_NUMBER_CREATED_MESSAGE)
-			) {
-				dispatch(clearUserSentInCurrentRound())
+			if (data.userName === gameConfig.SERVER_NAME) {
+				if (
+					text === gameConfig.GREETING_MESSAGE ||
+					text === gameConfig.WINNING_NUMBER_CREATED_MESSAGE
+				) {
+					dispatch(clearUserSentInCurrentRound())
+				}
+				if (text === gameConfig.WINNING_NUMBER_CREATED_MESSAGE) {
+					dispatch(setServerTimeLeft(gameConfig.GAME_DURATION / 1000))
+				}
 			}
 		})
 		socket.current.on(socketEvents.TIME_LEFT, (seconds: number) => {
 			dispatch(setServerTimeLeft(seconds))
 		})
-		socket.current.on(socketEvents.ROUND_RESULT, (payload: { winningNumber: number; winnerName: string; winnerNumber: number }) => {
+		socket.current.on(socketEvents.ROUND_RESULT, (payload: { winningNumber: number; winnerName: string; winnerNumber: number; winAmount?: number }) => {
 			dispatch(setLastRoundResult(payload))
 		})
 		socket.current.on(
@@ -114,9 +119,9 @@ const Home: FC = () => {
 						<h1 className={classes.nameTitle}>Great Intuition the Game</h1>
 					</div>
 
-					<NickInput mode='display' />
-					<GameStatus />
-					<Chat socketRef={socket} />
+					<NickInput mode="display" />
+					<GameStatus socketRef={socket} />
+					<Chat />
 				</div>
 			</div>
 

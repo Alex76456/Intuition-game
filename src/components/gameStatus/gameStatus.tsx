@@ -1,12 +1,18 @@
-import React, { FC } from 'react'
+import React, { FC, RefObject } from 'react'
+import { Socket } from 'socket.io-client'
 import { useStyles } from './gameStatusStyles'
 import { GameStatusBanner } from './gameStatusBanner/gameStatusBanner'
 import { GameStatusHeader } from './gameStatusHeader/gameStatusHeader'
 import { GameStatusTimerAndPlayers } from './gameStatusTimerAndPlayers/gameStatusTimerAndPlayers'
 import { GameStatusResult } from './gameStatusResult/gameStatusResult'
 import { useGameStatus } from 'src/hooks/useGameStatus'
+import { GameStatusInput } from './gameStatusInput/gameStatusInput'
 
-export const GameStatus: FC = () => {
+type Props = {
+	socketRef: RefObject<Socket>
+}
+
+export const GameStatus: FC<Props> = ({ socketRef }) => {
 	const classes = useStyles()
 	const { banner, phaseInfo, timeLeft, players, bots, lastResult } =
 		useGameStatus()
@@ -21,6 +27,7 @@ export const GameStatus: FC = () => {
 				bots={bots}
 			/>
 			<GameStatusResult lastResult={lastResult} />
+			<GameStatusInput socketRef={socketRef} />
 		</div>
 	)
 }
