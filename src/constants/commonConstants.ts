@@ -29,7 +29,7 @@ export const BOT_NAMES = [
   "Botan",
   "Botkins",
   "BotBorod", */
-	/* 'Botusha', */
+	'Botusha',
 	'BotRutdinov',
 	'BotJamesBot',
 ]
@@ -41,7 +41,7 @@ export const gameConfig = {
 	GAME_DURATION: 60 * 1000,
 	MIN_RANDOM_NUMBER: 0,
 	MAX_RANDOM_NUMBER: 100,
-	FREQUENCY_BOT_MESSAGES: { min: 20, max: 45 },
+	FREQUENCY_BOT_MESSAGES: { min: 20, max: 40 },
 
 	GREETING_MESSAGE:
 		'Добро пожаловать! Число уже загадано, попытайтесь отгадать...',

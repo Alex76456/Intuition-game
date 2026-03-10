@@ -49,11 +49,16 @@ const Home: FC = () => {
 		socket.current.on(socketEvents.RECEIVE_MESSAGE, (data: MessageType) => {
 			dispatch(addMessage(data))
 			const text = String(data.message)
-			if (
-				data.userName === gameConfig.SERVER_NAME &&
-				(text === gameConfig.GREETING_MESSAGE || text === gameConfig.WINNING_NUMBER_CREATED_MESSAGE)
-			) {
-				dispatch(clearUserSentInCurrentRound())
+			if (data.userName === gameConfig.SERVER_NAME) {
+				if (
+					text === gameConfig.GREETING_MESSAGE ||
+					text === gameConfig.WINNING_NUMBER_CREATED_MESSAGE
+				) {
+					dispatch(clearUserSentInCurrentRound())
+				}
+				if (text === gameConfig.WINNING_NUMBER_CREATED_MESSAGE) {
+					dispatch(setServerTimeLeft(gameConfig.GAME_DURATION / 1000))
+				}
 			}
 		})
 		socket.current.on(socketEvents.TIME_LEFT, (seconds: number) => {
