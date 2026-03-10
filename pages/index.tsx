@@ -114,9 +114,9 @@ const Home: FC = () => {
 						<h1 className={classes.nameTitle}>Great Intuition the Game</h1>
 					</div>
 
-					<NickInput mode='display' />
-					<GameStatus />
-					<Chat socketRef={socket} />
+					<NickInput mode="display" />
+					<GameStatus socketRef={socket} />
+					<Chat />
 				</div>
 			</div>
 

@@ -1,20 +1,15 @@
-import { gameConfig, socketEvents } from '@constants/commonConstants'
+import { gameConfig } from '@constants/commonConstants'
 import {
 	getAllMessages,
 	getLastRoundResult,
 	getUserName,
-	getUserSentInCurrentRound,
 } from '@redux/selectors/commonSelectors'
-import { setUserSentInCurrentRound } from '@redux/slices/commonSlice'
-import React, { FC, RefObject, useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Socket } from 'socket.io-client'
+import React, { FC, useEffect, useRef } from 'react'
+import { useSelector } from 'react-redux'
 import { useTranslation } from '@hooks/useTranslation'
 import { useStyles } from './chatStyles'
 
-const INPUT_ID = 'chat-number-input'
 const MAX_DIF_TO_SCROLL_TO_BOTTOM = 55
-const MAX_NUMBER = gameConfig.MAX_RANDOM_NUMBER
 
 function playWinSound() {
 	try {
@@ -34,21 +29,13 @@ function playWinSound() {
 	}
 }
 
-type IChatProps = {
-	socketRef: RefObject<Socket>
-}
-
-export const Chat: FC<IChatProps> = ({ socketRef }) => {
+export const Chat: FC = () => {
 	const classes = useStyles()
 	const { t } = useTranslation()
-	const dispatch = useDispatch()
 	const userName = useSelector(getUserName)
 	const allMessages = useSelector(getAllMessages)
-	const userSentInCurrentRound = useSelector(getUserSentInCurrentRound)
 	const lastResult = useSelector(getLastRoundResult)
 	const prevLastResultRef = useRef<typeof lastResult>(null)
-
-	const [message, setMessage] = useState<string>('')
 
 	useEffect(() => {
 		if (lastResult && lastResult.winnerName === userName && prevLastResultRef.current !== lastResult) {
@@ -56,29 +43,6 @@ export const Chat: FC<IChatProps> = ({ socketRef }) => {
 		}
 		prevLastResultRef.current = lastResult
 	}, [lastResult, userName])
-
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const value = e.target.value
-		if (value === '') {
-			setMessage('')
-			return
-		}
-		const numeric = Number(value)
-		if (Number.isNaN(numeric) || numeric < 0 || numeric > MAX_NUMBER) return
-		setMessage(value)
-	}
-
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault()
-		const numeric = Number(message)
-		if (!message || Number.isNaN(numeric) || numeric < 0 || numeric > MAX_NUMBER) return
-		socketRef.current?.emit(socketEvents.SEND_MESSAGE, {
-			userName,
-			message: numeric,
-		})
-		dispatch(setUserSentInCurrentRound(true))
-		setMessage('')
-	}
 
 	useEffect(() => {
 		const messagesList = document.getElementById('messagesList')
@@ -133,44 +97,6 @@ export const Chat: FC<IChatProps> = ({ socketRef }) => {
 					)
 				})}
 			</ul>
-
-			<form className={classes.form} onSubmit={handleSubmit}>
-				<div className={classes.formRow}>
-					<label htmlFor={INPUT_ID} className={classes.visuallyHidden}>
-						{t('введите своё число')}
-					</label>
-					<input
-						id={INPUT_ID}
-						className={classes.inputMessage}
-						disabled={!userName || userSentInCurrentRound}
-						name="message"
-						placeholder={t('0–100')}
-						value={message}
-						onChange={handleChange}
-						autoComplete="off"
-						min={0}
-						max={MAX_NUMBER}
-						size={3}
-						aria-describedby={userSentInCurrentRound ? 'chat-already-sent' : 'chat-hint'}
-					/>
-					<button
-						className={classes.submitButton}
-						type="submit"
-						disabled={!userName || !message || userSentInCurrentRound}
-					>
-						{t('Send')}
-					</button>
-				</div>
-				{userSentInCurrentRound ? (
-					<p id="chat-already-sent" className={classes.alreadySentHint}>
-						{t('Вы уже отправили число в этом раунде')}
-					</p>
-				) : (
-					<p id="chat-hint" className={classes.inputHint}>
-						{t('Число от 0 до 100')}
-					</p>
-				)}
-			</form>
 		</div>
 	)
 }
